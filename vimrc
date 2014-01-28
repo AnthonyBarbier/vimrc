@@ -4,7 +4,7 @@ set nocompatible
 "Use 256 colors
 set t_Co=256
 "Program called when 'make' is called
-set makeprg=my_scons
+set makeprg=./build.sh
 "set makeprg=make
 
 "auto completion for files
@@ -142,6 +142,8 @@ nnoremap <silent> <F9> :TlistToggle<CR>
 nnoremap <silent> <F10> :OpenDoxy<CR>
 nnoremap <silent> <F2> :cp<CR>
 nnoremap <silent> <F3> :cn<CR>
+vmap <silent> <F2> :diffpu<CR>
+vmap <silent> <F3> :diffge<CR>
 nnoremap <silent> <F4> :exe "cc".line('.')<CR>
 nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
 nnoremap <silent> <F5> :.,.diffget<CR>:diffupdate<CR>]c
@@ -191,7 +193,7 @@ function! FindAnyFunc( expr, path )
 endfunction
 
 function! FindCodeFunc( expr, path )
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp ". a:expr." ". a:path." | grep -v \"\.svn/*\" > /tmp/grep_output.log"
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". a:path." | grep -v \"\.svn/*\" > /tmp/grep_output.log"
 	exe "cfile /tmp/grep_output.log"
 	exe "copen"
 endfunction
@@ -280,4 +282,9 @@ command! -nargs=* -complete=custom,GtagsCandidate Zsymbol :cs find s <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 
+:nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
+
+au BufNewFile,BufRead *.cl set filetype=c
+
 execute pathogen#infect()
+
