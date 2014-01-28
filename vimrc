@@ -286,5 +286,6 @@ command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 
 au BufNewFile,BufRead *.cl set filetype=c
 
+source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
