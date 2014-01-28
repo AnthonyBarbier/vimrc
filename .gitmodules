@@ -4,3 +4,6 @@
 [submodule "bundle/simple_bookmarks"]
 	path = bundle/simple_bookmarks
 	url = git@github.com:AndrewRadev/simple_bookmarks.vim.git
+[submodule "bundle/vim-easymotion"]
+	path = bundle/vim-easymotion
+	url = git@github.com:Lokaltog/vim-easymotion.git
