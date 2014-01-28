@@ -134,27 +134,26 @@ filetype plugin on
 "set comments=s1:/*, mb:\ *, elx:\ */
 " Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
 nnoremap <silent> <F12> :BufExplorer<CR>
-"FIXME
-nnoremap <silent> <F9> :TlistToggle<CR>
-
-"nnoremap <silent> <F11> :bn<CR>
-""FIXME
-nnoremap <silent> <F10> :OpenDoxy<CR>
+" Previous / next line in quickwindow
 nnoremap <silent> <F2> :cp<CR>
 nnoremap <silent> <F3> :cn<CR>
-vmap <silent> <F2> :diffpu<CR>
-vmap <silent> <F3> :diffge<CR>
+" Jump to line selected in quickwindow
 nnoremap <silent> <F4> :exe "cc".line('.')<CR>
+" Jump to quickwindow line when double clicking on a line in the quickwindow
 nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
+" Pull / push a change from current buffer when in diff mode
 nnoremap <silent> <F5> :.,.diffget<CR>:diffupdate<CR>]c
 nnoremap <silent> <F6> :.,.diffput<CR>:diffupdate<CR>]c
+"Search / replace word under cursor
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
-"FIXME
-nnoremap <Leader>h :FindHex <C-r><C-w> .
+"Search for word under cursor in all the source code files
 nnoremap <Leader>f :FindCode <C-r><C-w> .
+"Search for word under cursor in all files
 nnoremap <Leader>a :FindAny <C-r><C-w> .
-nnoremap <C-n> <C-e>
-nnoremap <C-m> <C-y>
+"Move half page up / down
+nnoremap <C-n> <C-u>
+nnoremap <C-m> <C-d>
+"Resize windows
 nnoremap <silent> + :exe "vertical resize " . (winwidth(0) * 10/9)<CR>
 nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
 nnoremap <Leader>+ :exe "resize " . (winheight(0) * 10/9)<CR>
@@ -174,17 +173,6 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
-
-let Tlist_Auto_Open = 1
-let Tlist_Auto_Update = 1
-
-set previewheight=12 "set gdb window initial height
-":run macros/gdb_mappings.vim "source key mapping for gdb
-":set asm=0 "doesn't show assembly stuff
-":set gdbprg=gdb_invocation "set gdb invocation string, default is 'gdb'
-""FIXME
-runtime pyclewn.vim
-runtime myscripts.vim
 
 function! FindAnyFunc( expr, path )
 	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" > /tmp/grep_output.log"
@@ -213,39 +201,9 @@ command! -nargs=* Ctags !ctags -R -a <f-args>
 command! -nargs=* FindCode call FindCodeFunc(<f-args>)
 command! -nargs=* FindAny call FindAnyFunc(<f-args>)
 command! -nargs=* FindHex call FindHexFunc(<f-args>)
-"FIXME
-command! -nargs=0 OpenDoxy call OpenDoxy()
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
-command! -nargs=0 Clean !rm -rvf ./build ./bin ./bin-qemu
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
-"FIXME
-command! -nargs=* SconsReleaseUnitNoDoc make profile=x86-32-release progs_install=bin libs_install=bin ccache=1 <args> -j 4
-command! -nargs=* SconsDebug64 make profile=cluster-64-unit progs_install=bin libs_install=bin hw=1 ccache=1 <args> -j 4
-command! -nargs=* SconsDebugUnitNoDoc make profile=x86-32-unit progs_install=bin libs_install=bin ccache=1 <args> -j 4
-command! -nargs=* SconsDebugUnitNoDocQemu !KDIR=/home/tony/work/qemu/linux-2.6.36.y ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- scons-2.0.1 profile=armv7-linux-unit winsys=fbdev progs_install=bin-qemu libs_install=bin-qemu <args> -j 4 2>&1 | tee /tmp/scons_output.log
-command! -nargs=* SconsDebugUnitNoDocFPGA !KDIR=/home/tony/work/fpga/linux_mainline_2.6.36.4 ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- scons-2.0.1 profile=armv7-linux-unit winsys=fbdev progs_install=bin-fpga libs_install=bin-fpga ccache=1 <args> -j 4 2>&1 | tee /tmp/scons_output.log
-command! -nargs=* SconsDebugUnitX11 !KDIR=/home/tony/work/fpga/linaro_natty/kernel ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- scons-2.0.1 profile=armv7-linux-unit winsys=x11 progs_install=bin-fpga libs_install=bin-fpga ccache=1 -j4 <args> 2>&1 | tee /tmp/scons_output.log
-command! -nargs=* SconsCloth !CROSS_COMPILE=arm-none-linux-gnueabi- KDIR=/home/tony/work/fpga/linux_mainline_2.6.36.4/ ARCH=arm scons -f bldsys/sconstruct profile=armv7-linux-unit cl=0 vg=0 hwver=r0p0_beta_eco1 winsys=fbdev unit=0 libs_install=bin progs_install=bin -j4 <args> 2>&1 | tee /tmp/scons_output.log
-"command! -nargs=* SconsDebugUnitNoDocQemu ! PATH=$PATH:/home/tony/work/qemu/compiler/bin 
-"KDIR=/home/tony/work/qemu/linux-2.6.36.y ARCH=arm 
-"CROSS_COMPILE=/home/tony/work/qemu/compiler/bin/arm-none-linux-gnueabi- scons-2.0.1 arch=arm_v7 os=linux hw=2 
-"doc=0 debug=1 hw=2 progs_install=/home/tony/work/qemu/armel/tmp/bin 
-"libs_install=/home/tony/work/qemu/armel/driver
-"<args> -j 4 2>&1 | tee /tmp/scons_output.log
-
-command! -nargs=* TestMake call AsyncScons("KDIR=/home/tony/work/fpga/linaro_natty/kernel ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- scons-2.0.1 profile=armv7-linux-unit winsys=x11 progs_install=bin-fpga libs_install=bin-fpga ccache=1 -j4 2>&1 | tee /tmp/scons_output.log")
-
-function! AsyncScons(cmd)
-	"let cmd = "KDIR=/home/tony/work/fpga/linaro_natty/kernel ARCH=arm 
-	"CROSS_COMPILE=arm-none-linux-gnueabi- scons-2.0.1 profile=armv7-linux-unit winsys=x11 
-	"progs_install=bin-fpga libs_install=bin-fpga ccache=1 ".a:param." -j 4 2>&1 | tee 
-	"/tmp/scons_output.log"
-	let res = asynchandler#quickfix(&errorformat, "Scons")
-	call asynccommand#run(a:cmd,res)
-endfunction
-
-"progs_install=bin <args> -j 4
 
 set nocst "no ctags db
 set cscopequickfix=s-,c-,d-,i-,t-,e-
@@ -255,7 +213,6 @@ let GtagsCscope_Auto_Map = 0
 let GtagsCscope_Quiet = 1
 set cscopetag
 set statusline=[%f][%l,%v][%p%%][len=%L]
-set textwidth=110
 
 " g = definition
 " c = references
@@ -275,6 +232,7 @@ set textwidth=110
 :nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 :nmap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
 ":nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+"
 command! -nargs=* -complete=custom,GtagsCandidate Zdef :cs find g <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zfind :cs find t <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zgrep :cs find e <args>
@@ -282,11 +240,15 @@ command! -nargs=* -complete=custom,GtagsCandidate Zsymbol :cs find s <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 
+"Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
 
+"Open .cl files as C files
 au BufNewFile,BufRead *.cl set filetype=c
 
+"Make ctrlp browse buffers instead of files by default
 let g:ctrlp_cmd='CtrlPBuffer'
 
+"Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
