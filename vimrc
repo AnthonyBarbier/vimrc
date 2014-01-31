@@ -248,6 +248,7 @@ au BufNewFile,BufRead *.cl set filetype=c
 
 "Make ctrlp browse buffers instead of files by default
 let g:ctrlp_cmd='CtrlPBuffer'
+let g:EasyMotion_leader_key = '<Tab>'
 
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
