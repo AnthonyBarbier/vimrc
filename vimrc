@@ -7,6 +7,9 @@ set t_Co=256
 set makeprg=./build.sh
 "set makeprg=make
 
+exe "silent ! mkdir -p  .vim_cache"
+set directory=.vim_cache,~/tmp/vim,~/tmp,/tmp
+
 "auto completion for files
 set wildmenu
 "set wildignore=*.bak,*.o,*.e,*~ " Wildmenu: ignore these extensions.
@@ -175,24 +178,24 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
 function! FindAnyFunc( expr, path )
-	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" > /tmp/grep_output.log"
-	exe "cfile /tmp/grep_output.log"
+	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" > .vim_cache/grep_output.log"
+	exe "cfile .vim_cache/grep_output.log"
 	exe "copen"
 endfunction
 
 function! FindCodeFunc( expr, path )
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". a:path." | grep -v \"\.svn/*\" > /tmp/grep_output.log"
-	exe "cfile /tmp/grep_output.log"
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". a:path." | grep -v \"\.svn/*\" > .vim_cache/grep_output.log"
+	exe "cfile .vim_cache/grep_output.log"
 	exe "copen"
 endfunction
 
 function! FindHexFunc( expr, path )
-	exe "!grep -R -n --include=*.hex ". a:expr." ". a:path." | grep -v \"\.svn/*\" > /tmp/grep_output.log"
-	exe "cfile /tmp/grep_output.log"
+	exe "!grep -R -n --include=*.hex ". a:expr." ". a:path." | grep -v \"\.svn/*\" > .vim_cache/grep_output.log"
+	exe "cfile .vim_cache/grep_output.log"
 	exe "copen"
 endfunction
 function! CopenFunc()
-	exe "cfile /tmp/scons_output.log"
+	exe "cfile .vim_cache/scons_output.log"
 	exe "copen"
 endfunction
 
