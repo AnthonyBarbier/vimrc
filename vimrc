@@ -163,6 +163,7 @@ nnoremap <silent> + :exe "vertical resize " . (winwidth(0) * 10/9)<CR>
 nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
 nnoremap <Leader>+ :exe "resize " . (winheight(0) * 10/9)<CR>
 nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
+nnoremap <F10> :wa<CR>:make<CR>
 
 function! CD()
   if bufname("") !~ "^ftp://"
