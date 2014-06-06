@@ -120,7 +120,7 @@ colorscheme nature
     endif
 
 
-set scrolloff=4     " Keep some lines above/below the cursor visible
+set scrolloff=6     " Keep some lines above/below the cursor visible
 
 "set mouse=r
 set mouse=ar
