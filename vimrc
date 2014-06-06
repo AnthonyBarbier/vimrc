@@ -38,6 +38,8 @@ set dir-=.	" Remove the current directory from the list of places to keep swap f
 set fileformats=unix,dos,mac	" Enable autodetection of newline formats
 set list lcs=tab:¬.,trail:#
 
+"set complete=.,w,b,u,t,i
+set complete=.,w,b,u,t
 "tag files
 "set tags +=$HOME/.vim/tags/project.ctags
 
