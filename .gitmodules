@@ -16,3 +16,6 @@
 [submodule "bundle/gtags-cscope"]
 	path = bundle/gtags-cscope
 	url = git://github.com/tranngocthachs/gtags-cscope-vim-plugin.git
+[submodule "bundle/fugitive"]
+	path = bundle/fugitive
+	url = http://github.com/tpope/vim-fugitive.git
