@@ -24,6 +24,9 @@ set backspace=indent,eol,start
 
 set history=200		" keep 200 lines of command line history
 
+set shiftwidth=4
+set tabstop=4
+
 "set ruler		" show the cursor position all the time
 " As above, but with buffer number preceeding usual info
 "set statusline=%-0n\ %<%f\ %h%m%r%=%-14.(%l, %c%V%)\ %P
