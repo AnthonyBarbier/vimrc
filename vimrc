@@ -54,7 +54,7 @@ set encoding=utf8
 " q: gq uses these settings
 " n: Number lists should change indent
 " a: Auto paragraph reflow
-set formatoptions=cwqna
+set formatoptions=wqn
 
 " PuTTY does odd things with arrow keys
 map <ESC>[A <C-Up>
