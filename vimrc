@@ -214,6 +214,9 @@ command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
 
+command! -nargs=0 Hexon :%!xxd
+command! -nargs=0 Hexoff :%!xxd -r
+
 set nocst "no ctags db
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 let GtagsCscope_Auto_Load = 1
