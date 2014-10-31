@@ -132,7 +132,10 @@ set ttymouse=xterm2 " Works under GNU Screen
 "set go -=T
 "set go -=r
 
-au BufNewFile, BufRead SCons* set filetype=scons
+au BufNewFile,BufRead SCons* set filetype=scons
+au BufNewFile,BufRead scons* set filetype=scons
+au BufNewFile,BufRead *.scons set filetype=scons
+au BufNewFile,BufRead *.md set filetype=markdown
 
 set number
 set hidden
@@ -184,7 +187,7 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
 function! FindAnyFunc( expr, path )
-	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" > .vim_cache/grep_output.log"
+	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" | grep -v \"\.vim_cache/*\" > .vim_cache/grep_output.log"
 	exe "cfile .vim_cache/grep_output.log"
 	exe "copen"
 endfunction
@@ -216,6 +219,8 @@ command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
 
 command! -nargs=0 Hexon :%!xxd
 command! -nargs=0 Hexoff :%!xxd -r
+
+command! -nargs=0 Gcheckout :Git checkout %
 
 set nocst "no ctags db
 set cscopequickfix=s-,c-,d-,i-,t-,e-
@@ -259,7 +264,8 @@ command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 au BufNewFile,BufRead *.cl set filetype=c
 
 "Make ctrlp browse buffers instead of files by default
-let g:ctrlp_cmd='CtrlPBuffer'
+let g:ctrlp_cmd='CtrlPMRU'
+let g:ctrlp_working_path_mode=''
 let g:EasyMotion_leader_key = '<Tab>'
 
 "Load pathogen as a module (Pathogen will then load all the other modules
