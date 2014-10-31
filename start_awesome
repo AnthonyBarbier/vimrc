@@ -1,0 +1,10 @@
+#!/bin/bash
+
+exec ck-launch-session gnome-session &
+
+exec /home/tony/.config/awesome/apps.sh &
+
+#pkill -9 indicator-appli
+
+exec awesome
+
