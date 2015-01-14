@@ -272,3 +272,5 @@ let g:EasyMotion_leader_key = '<Tab>'
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
+
+exe "Helptags"
