@@ -7,8 +7,9 @@ set t_Co=256
 set makeprg=./build.sh
 "set makeprg=make
 
-exe "silent ! mkdir -p  .vim_cache"
-set directory=.vim_cache,~/tmp/vim,~/tmp,/tmp
+let s:cache= "~/tmp/vim_cache" . getcwd()
+exe "silent ! mkdir -p ". s:cache
+let &directory=s:cache . ",~/tmp/vim_cache"
 
 "auto completion for files
 set wildmenu
@@ -187,28 +188,28 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
 function! FindAnyFunc( expr, path )
-	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" | grep -v \"\.vim_cache/*\" > .vim_cache/grep_output.log"
-	exe "cfile .vim_cache/grep_output.log"
+	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" > ". s:cache . "/grep_output.log"
+	exe "cfile ".s:cache."/grep_output.log"
 	exe "copen"
 endfunction
 
 function! FindCodeFunc( expr, path )
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". a:path." | grep -v \"\.svn/*\" > .vim_cache/grep_output.log"
-	exe "cfile .vim_cache/grep_output.log"
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". a:path." | grep -v \"\.svn/*\" > ".s:cache."/grep_output.log"
+	exe "cfile ".s:cache."/grep_output.log"
 	exe "copen"
 endfunction
 
 function! FindHexFunc( expr, path )
-	exe "!grep -R -n --include=*.hex ". a:expr." ". a:path." | grep -v \"\.svn/*\" > .vim_cache/grep_output.log"
-	exe "cfile .vim_cache/grep_output.log"
+	exe "!grep -R -n --include=*.hex ". a:expr." ". a:path." | grep -v \"\.svn/*\" > ".s:cache."/grep_output.log"
+	exe "cfile ".s:cache."/grep_output.log"
 	exe "copen"
 endfunction
-function! CopenFunc()
-	exe "cfile .vim_cache/scons_output.log"
-	exe "copen"
-endfunction
+"function! CopenFunc()
+"	exe "cfile ".s:cache."/scons_output.log"
+"	exe "copen"
+"endfunction
 
-command! -nargs=0 Copen call CopenFunc()
+"command! -nargs=0 Copen call CopenFunc()
 command! -nargs=* Ctags !ctags -R -a <f-args>
 command! -nargs=* FindCode call FindCodeFunc(<f-args>)
 command! -nargs=* FindAny call FindAnyFunc(<f-args>)
