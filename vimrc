@@ -7,9 +7,10 @@ set t_Co=256
 set makeprg=./build.sh
 "set makeprg=make
 
-let s:cache= "~/tmp/vim_cache" . getcwd()
+let s:home = expand('~')
+let s:cache= s:home . "/tmp/vim_cache" . getcwd()
 exe "silent ! mkdir -p ". s:cache
-let &directory=s:cache . ",~/tmp/vim_cache"
+let &directory=s:cache . "," . s:home . "/tmp/vim_cache"
 
 "auto completion for files
 set wildmenu
