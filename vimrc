@@ -195,21 +195,39 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
-function! FindAnyFunc( expr, path )
-	exe "!grep -R -n ". a:expr." ". a:path." | grep -v \"\.svn/*\" > ". s:cache . "/grep_output.log"
-	exe "cfile ".s:cache."/grep_output.log"
-	exe "copen"
+function! FindAnyFunc( prefix, expr, ... )
+	if a:0 > 0
+		let path = a:1
+	else
+		let path= "."
+	end
+	let tmp=tempname()
+	exe "!grep -R -n ". a:expr." ". path." | grep -v \"\.svn/*\" > ".tmp
+	exe a:prefix."file ".tmp
+	exe a:prefix."open"
 endfunction
 
-function! FindCodeFunc( expr, path )
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". a:path." | grep -v \"\.svn/*\" > ".s:cache."/grep_output.log"
-	exe "cfile ".s:cache."/grep_output.log"
-	exe "copen"
+function! FindCodeFunc( prefix, expr, ... )
+	if a:0 > 0
+		let path = a:1
+	else
+		let path= "."
+	end
+	let tmp=tempname()
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". path." | grep -v \"\.svn/*\" > ".tmp
+	exe a:prefix."file ".tmp
+	exe a:prefix."open"
 endfunction
 
-function! FindHexFunc( expr, path )
-	exe "!grep -R -n --include=*.hex ". a:expr." ". a:path." | grep -v \"\.svn/*\" > ".s:cache."/grep_output.log"
-	exe "cfile ".s:cache."/grep_output.log"
+function! FindHexFunc( expr, ... )
+	if a:0 > 0
+		let path = a:1
+	else
+		let path= "."
+	end
+	let tmp=tempname()
+	exe "!grep -R -n --include=*.hex ". a:expr." ". path." | grep -v \"\.svn/*\" > ".tmp
+	exe "cfile ".tmp
 	exe "copen"
 endfunction
 "function! CopenFunc()
@@ -219,9 +237,11 @@ endfunction
 
 "command! -nargs=0 Copen call CopenFunc()
 command! -nargs=* Ctags !ctags -R -a <f-args>
-command! -nargs=* FindCode call FindCodeFunc(<f-args>)
-command! -nargs=* FindAny call FindAnyFunc(<f-args>)
-command! -nargs=* FindHex call FindHexFunc(<f-args>)
+command! -nargs=* -complete=file FindCode call FindCodeFunc("c",<f-args>)
+command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
+command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
+command! -nargs=* -complete=file FindAnyl call FindAnyFunc("l", <f-args>)
+command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
