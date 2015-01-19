@@ -81,19 +81,23 @@ set <F12>=[24~
 
 " NB: S-F1 == F11, so S-F1 is probably unreachable
 " NB: S-F2 == F12, so S-F2 is probably unreachable
-set <S-F1>=[23~
-set <S-F2>=[24~
-set <S-F3>=[25~
-set <S-F4>=[26~
-set <S-F5>=[28~
-set <S-F6>=[29~
-set <S-F7>=[31~
-set <S-F8>=[32~
-set <S-F9>=[33~
-set <S-F10>=[34~
-set <S-F11>=[23~
-set <S-F12>=[24~
+"set <S-F1>=[23~
+"set <S-F2>=[24~
+"set <S-F3>=[25~
+"set <S-F4>=[26~
+"set <S-F5>=[28~
+"set <S-F6>=[29~
+"set <S-F7>=[31~
+"set <S-F8>=[32~
+"set <S-F9>=[33~
+"set <S-F10>=[34~
+"set <S-F11>=[23~
+"set <S-F12>=[24~
 
+" C-v {key combination} to insert it
+set <S-F2>=[1;2Q
+set <S-F3>=[1;2R
+set <S-F4>=[1;2S
 
 "1
 
@@ -150,8 +154,11 @@ nnoremap <silent> <F12> :BufExplorer<CR>
 " Previous / next line in quickwindow
 nnoremap <silent> <F2> :cp<CR>
 nnoremap <silent> <F3> :cn<CR>
+nnoremap <S-F2> :lprevious<CR>
+nnoremap <S-F3> :lnext<CR>
 " Jump to line selected in quickwindow
 nnoremap <silent> <F4> :exe "cc".line('.')<CR>
+nnoremap <S-F4> :exe "ll".line('.')<CR>
 " Jump to quickwindow line when double clicking on a line in the quickwindow
 nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
 " Pull / push a change from current buffer when in diff mode
