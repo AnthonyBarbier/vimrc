@@ -230,6 +230,28 @@ function! FindHexFunc( expr, ... )
 	exe "cfile ".tmp
 	exe "copen"
 endfunction
+
+function! OpenFilesFunc( extra, ... )
+	if a:0 > 0
+		let path = a:1
+	else
+		let path = '.'
+	end
+	let cmd="find ".path." ".a:extra
+	if a:0 < 2
+		let cmd= cmd." -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.cl'"
+	else
+		let i = 2
+		let cmd = cmd." -name '*.". a:000[1]."'"
+		while i < a:0
+			let cmd = cmd." -o -name '*.". a:000[i]."'"
+			let i += 1
+		endwhile
+	end
+	let result = system(cmd."| tr '\n' ' '")
+	exe "args ".result
+endfunction
+
 "function! CopenFunc()
 "	exe "cfile ".s:cache."/scons_output.log"
 "	exe "copen"
@@ -237,6 +259,8 @@ endfunction
 
 "command! -nargs=0 Copen call CopenFunc()
 command! -nargs=* Ctags !ctags -R -a <f-args>
+command! -nargs=* -complete=file OpenFiles call OpenFilesFunc('-maxdepth 1',<f-args>)
+command! -nargs=* -complete=file OpenAll call OpenFilesFunc('',<f-args>)
 command! -nargs=* -complete=file FindCode call FindCodeFunc("c",<f-args>)
 command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
 command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
