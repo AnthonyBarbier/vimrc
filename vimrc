@@ -161,6 +161,7 @@ nnoremap <silent> <F4> :exe "cc".line('.')<CR>
 nnoremap <S-F4> :exe "ll".line('.')<CR>
 " Jump to quickwindow line when double clicking on a line in the quickwindow
 nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
+nnoremap <silent><F7> :GundoToggle<CR>
 " Pull / push a change from current buffer when in diff mode
 nnoremap <silent> <F5> :.,.diffget<CR>:diffupdate<CR>]c
 nnoremap <silent> <F6> :.,.diffput<CR>:diffupdate<CR>]c
