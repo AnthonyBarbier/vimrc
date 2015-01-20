@@ -11,6 +11,10 @@ let s:home = expand('~')
 let s:cache= s:home . "/tmp/vim_cache" . getcwd()
 exe "silent ! mkdir -p ". s:cache
 let &directory=s:cache . "," . s:home . "/tmp/vim_cache"
+let &undodir=s:cache
+set undofile
+set undolevels=1000
+set undoreload=10000
 
 "auto completion for files
 set wildmenu
