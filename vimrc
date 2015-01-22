@@ -331,3 +331,8 @@ source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 exe "Helptags"
+
+hi SignColumn   ctermfg=DarkYellow ctermbg=Black      guifg=#C4A000    guibg=#000000 cterm=none term=bold
+hi GitGutterAdd ctermfg=DarkGreen ctermbg=Black
+hi GitGutterChange ctermfg=DarkYellow ctermbg=Black
+hi GitGutterDelete ctermfg=DarkRed ctermbg=Black
