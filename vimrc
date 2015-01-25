@@ -6,6 +6,9 @@ set t_Co=256
 "Program called when 'make' is called
 set makeprg=./build.sh
 "set makeprg=make
+"
+set nowrap
+set textwidth=0
 
 let s:home = expand('~')
 let s:cache= s:home . "/tmp/vim_cache" . getcwd()
@@ -325,6 +328,7 @@ au BufNewFile,BufRead *.cl set filetype=c
 let g:ctrlp_cmd='CtrlPMRU'
 let g:ctrlp_working_path_mode=''
 let g:EasyMotion_leader_key = '<Tab>'
+let g:leave_my_textwidth_alone=1
 
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
