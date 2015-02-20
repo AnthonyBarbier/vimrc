@@ -37,3 +37,6 @@
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/AnthonyARM/vim-airline.git
+[submodule "bundle/CCTree"]
+	path = bundle/CCTree
+	url = https://github.com/AnthonyARM/CCTree.git
