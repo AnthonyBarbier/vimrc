@@ -173,6 +173,7 @@ nnoremap <silent> <F6> :.,.diffput<CR>:diffupdate<CR>]c
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 "Search for word under cursor in all the source code files
 nnoremap <Leader>f :FindCode <C-r><C-w> .
+nnoremap <Leader>F :FindCodel <C-r><C-w> .
 "Search for word under cursor in all files
 nnoremap <Leader>a :FindAny <C-r><C-w> .
 "Move half page up / down
