@@ -326,6 +326,7 @@ au BufNewFile,BufRead *.cl set filetype=c
 "Make ctrlp browse buffers instead of files by default
 let g:ctrlp_cmd='CtrlPMRU'
 let g:ctrlp_working_path_mode=''
+let g:ctrlp_mruf_relative=1
 let g:EasyMotion_leader_key = '<Tab>'
 
 "Load pathogen as a module (Pathogen will then load all the other modules
