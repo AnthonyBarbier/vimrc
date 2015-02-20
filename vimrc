@@ -315,6 +315,7 @@ command! -nargs=* -complete=custom,GtagsCandidate Zgrep :cs find e <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zsymbol :cs find s <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
+command! -nargs=0 Conflicts /^[<=>]\{7\}
 
 "Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
