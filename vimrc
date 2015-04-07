@@ -272,6 +272,11 @@ function! OpenFilesFunc( extra, ... )
 	exe "args ".result
 endfunction
 
+function! MoveToLocation_func()
+    exe "lfile ". &errorfile
+    exe "lopen"
+endfunction
+
 "function! CopenFunc()
 "	exe "cfile ".s:cache."/scons_output.log"
 "	exe "copen"
@@ -331,6 +336,7 @@ command! -nargs=* -complete=custom,GtagsCandidate Zsymbol :cs find s <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 command! -nargs=0 Conflicts /^[<=>]\{7\}
+command! -nargs=0 MoveToLocation call MoveToLocation_func()
 
 "Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
