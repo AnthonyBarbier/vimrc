@@ -350,6 +350,18 @@ let g:ctrlp_working_path_mode=''
 let g:ctrlp_mruf_relative=1
 let g:EasyMotion_leader_key = '<Tab>'
 
+"let g:ycm_extra_conf_globlist = [s:home.'/.vim/*']
+"let g:ycm_global_ycm_extra_conf= s:home .'/.vim/'
+"let g:ycm_server_keep_logfiles =1
+"let g:ycm_server_log_level='debug'
+"let g:ycm_server_use_vim_stdout=1
+let g:ycm_add_preview_to_completeopt=1
+let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_always_populate_location_list=1
+let g:ycm_echo_current_diagnostic = 1
+
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
