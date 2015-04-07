@@ -237,6 +237,20 @@ function! FindHexFunc( expr, ... )
 	exe "copen"
 endfunction
 
+function! CscopeCreate_func(...)
+	if a:0 > 0
+		let path = join(a:000)
+	else
+		let path= "."
+	end
+	let tmp=tempname()
+	let result = system('find '.path.' -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.hpp" > '.tmp)
+	exe "!cat ".tmp
+	let result = system("cscope -b -q -i ".tmp)
+	exe "cscope add cscope.out"
+	exe "CCTreeLoadDB cscope.out"
+endfunction
+
 function! OpenFilesFunc( extra, ... )
 	if a:0 > 0
 		let path = a:1
@@ -272,6 +286,7 @@ command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
 command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
 command! -nargs=* -complete=file FindAnyl call FindAnyFunc("l", <f-args>)
 command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
+command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
