@@ -40,3 +40,6 @@
 [submodule "bundle/CCTree"]
 	path = bundle/CCTree
 	url = https://github.com/AnthonyARM/CCTree.git
+[submodule "bundle/YouCompleteMe"]
+	path = bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
