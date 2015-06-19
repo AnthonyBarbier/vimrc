@@ -176,6 +176,7 @@ nnoremap <silent> <F6> :.,.diffput<CR>:diffupdate<CR>]c
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 "Search for word under cursor in all the source code files
 nnoremap <Leader>f :FindCode <C-r><C-w> .
+nnoremap <Leader>F :FindCodel <C-r><C-w> .
 "Search for word under cursor in all files
 nnoremap <Leader>a :FindAny <C-r><C-w> .
 "Move half page up / down
@@ -239,6 +240,20 @@ function! FindHexFunc( expr, ... )
 	exe "copen"
 endfunction
 
+function! CscopeCreate_func(...)
+	if a:0 > 0
+		let path = join(a:000)
+	else
+		let path= "."
+	end
+	let tmp=tempname()
+	let result = system('find '.path.' -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.hpp" > '.tmp)
+	exe "!cat ".tmp
+	let result = system("cscope -b -q -i ".tmp)
+	exe "cscope add cscope.out"
+	exe "CCTreeLoadDB cscope.out"
+endfunction
+
 function! OpenFilesFunc( extra, ... )
 	if a:0 > 0
 		let path = a:1
@@ -260,6 +275,11 @@ function! OpenFilesFunc( extra, ... )
 	exe "args ".result
 endfunction
 
+function! MoveToLocation_func()
+    exe "lfile ". &errorfile
+    exe "lopen"
+endfunction
+
 "function! CopenFunc()
 "	exe "cfile ".s:cache."/scons_output.log"
 "	exe "copen"
@@ -274,6 +294,7 @@ command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
 command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
 command! -nargs=* -complete=file FindAnyl call FindAnyFunc("l", <f-args>)
 command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
+command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
@@ -317,6 +338,8 @@ command! -nargs=* -complete=custom,GtagsCandidate Zgrep :cs find e <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zsymbol :cs find s <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
+command! -nargs=0 Conflicts /^[<=>]\{7\}
+command! -nargs=0 MoveToLocation call MoveToLocation_func()
 
 "Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
@@ -327,8 +350,21 @@ au BufNewFile,BufRead *.cl set filetype=c
 "Make ctrlp browse buffers instead of files by default
 let g:ctrlp_cmd='CtrlPMRU'
 let g:ctrlp_working_path_mode=''
+let g:ctrlp_mruf_relative=1
 let g:EasyMotion_leader_key = '<Tab>'
 let g:leave_my_textwidth_alone=1
+
+"let g:ycm_extra_conf_globlist = [s:home.'/.vim/*']
+"let g:ycm_global_ycm_extra_conf= s:home .'/.vim/'
+"let g:ycm_server_keep_logfiles =1
+"let g:ycm_server_log_level='debug'
+"let g:ycm_server_use_vim_stdout=1
+let g:ycm_add_preview_to_completeopt=1
+let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_always_populate_location_list=1
+let g:ycm_echo_current_diagnostic = 1
 
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
