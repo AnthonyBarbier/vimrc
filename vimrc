@@ -1,8 +1,18 @@
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-"Use 256 colors
-set t_Co=256
+" by Anthony Barbier <anthony.barbier@gmail.com>
+
+if !has('nvim')
+	" Use Vim settings, rather then Vi settings (much better!).
+	" This must be first, because it changes other options as a side effect.
+	" Removed in Neovim
+	set nocompatible
+endif
+
+if !has('nvim')
+  " neovim looks at the environment variable `$TERM`, which is expected to
+  " contain `256color`.
+  set t_Co=256                  " 256 colors.
+endif
+
 "Program called when 'make' is called
 set makeprg=./build.sh
 "set makeprg=make
@@ -11,10 +21,35 @@ set nowrap
 set textwidth=0
 
 let s:home = expand('~')
-let s:cache= s:home . "/tmp/vim_cache" . getcwd()
+if has('nvim')
+	let s:cache_folder = s:home . "/tmp/nvim_cache"
+else
+	let s:cache_folder = s:home . "/tmp/vim_cache"
+endif
+let s:cache= s:cache_folder . getcwd()
 exe "silent ! mkdir -p ". s:cache
-let &directory=s:cache . "," . s:home . "/tmp/vim_cache"
+let &directory=s:cache . "," . s:cache_folder
 let &undodir=s:cache
+let &viewdir=s:cache
+let &backupdir=s:cache
+
+" Automatically save and load views.
+autocmd BufWinLeave,BufWrite *.* mkview
+autocmd BufWinEnter *.* silent! loadview
+
+" Jump to last known cursor position when editing a file.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+
+" Autodetect filetype on first save.
+autocmd BufWritePost * if &ft == "" | filetype detect | endif
+
+" Backup files and keep a history of the edits so changes form a previous
+" session can be undone.
+set backup
 set undofile
 set undolevels=1000
 set undoreload=10000
@@ -27,7 +62,11 @@ set wildmode=longest:list,full
 "Auto completion mode for commands
 set completeopt=longest,menu,preview
 
-set shell=/bin/bash
+if !has('nvim')
+  " This has been removed in neovim.
+  set shell=/bin/bash
+endif
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -140,7 +179,10 @@ set scrolloff=6     " Keep some lines above/below the cursor visible
 
 "set mouse=r
 set mouse=ar
-set ttymouse=xterm2 " Works under GNU Screen
+if !has('nvim')
+	" Removed in Neovim
+	set ttymouse=xterm2 " Works under GNU Screen
+endif
 "set go -=m
 "set go -=T
 "set go -=r
