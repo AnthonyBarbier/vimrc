@@ -185,6 +185,7 @@ nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
 nnoremap <Leader>+ :exe "resize " . (winheight(0) * 10/9)<CR>
 nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
 nnoremap <F10> :wa<CR>:make<CR>
+nnoremap ; :
 
 function! CD()
   if bufname("") !~ "^ftp://"
@@ -277,6 +278,11 @@ function! MoveToLocation_func()
     exe "lopen"
 endfunction
 
+function! DoxyTabF()range
+	let range = a:firstline . ',' . a:lastline
+	exe range . 'Tabularize /^[^\]]\+]'
+	exe range . 'Tabularize /^[^\]]\+] \+[^ ]\+ \+/l0'
+endfunction
 "function! CopenFunc()
 "	exe "cfile ".s:cache."/scons_output.log"
 "	exe "copen"
@@ -300,6 +306,7 @@ command! -nargs=0 Hexon :%!xxd
 command! -nargs=0 Hexoff :%!xxd -r
 
 command! -nargs=0 Gcheckout :Git checkout %
+command! -nargs=0 -range DoxyTab <line1>,<line2> call DoxyTabF()
 
 set nocst "no ctags db
 set cscopequickfix=s-,c-,d-,i-,t-,e-
@@ -308,6 +315,7 @@ let GtagsCscope_Auto_Load = 1
 let GtagsCscope_Auto_Map = 0
 let GtagsCscope_Quiet = 1
 set cscopetag
+set csverb
 set statusline=[%f][%l,%v][%p%%][len=%L][%{fugitive#statusline()}]
 
 " g = definition
