@@ -214,6 +214,13 @@ function! FindAnyFunc( prefix, expr, ... )
 	exe a:prefix."open"
 endfunction
 
+function! FindInBuffersFunc( expr )
+	call "cclose"
+	call setqflist([])
+	exe "bufdo silent vimgrepadd! ".a:expr." %"
+	exe "copen"
+endfunction
+
 function! FindCodeFunc( prefix, expr, ... )
 	if a:0 > 0
 		let path = a:1
@@ -292,6 +299,7 @@ endfunction
 command! -nargs=* Ctags !ctags -R -a <f-args>
 command! -nargs=* -complete=file OpenFiles call OpenFilesFunc('-maxdepth 1',<f-args>)
 command! -nargs=* -complete=file OpenAll call OpenFilesFunc('',<f-args>)
+command! -nargs=* -complete=file FindInBuffers call FindInBuffersFunc(<f-args>)
 command! -nargs=* -complete=file FindCode call FindCodeFunc("c",<f-args>)
 command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
 command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
