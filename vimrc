@@ -30,6 +30,7 @@ set backspace=indent,eol,start
 
 set history=200		" keep 200 lines of command line history
 
+set expandtab
 set shiftwidth=4
 set tabstop=4
 
@@ -209,7 +210,7 @@ function! FindAnyFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n ". a:expr." ". path." | grep -v \"\.svn/*\" > ".tmp
+	exe "!grep -R -n ". a:expr." ". path." | grep -v \"\.git/*\" > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -228,7 +229,7 @@ function! FindCodeFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". path." | grep -v \"\.svn/*\" > ".tmp
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". path." | grep -v \"\.git/*\" > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -240,7 +241,7 @@ function! FindHexFunc( expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.hex ". a:expr." ". path." | grep -v \"\.svn/*\" > ".tmp
+	exe "!grep -R -n --include=*.hex ". a:expr." ". path." | grep -v \"\.git/*\" > ".tmp
 	exe "cfile ".tmp
 	exe "copen"
 endfunction
