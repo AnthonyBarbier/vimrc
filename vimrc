@@ -69,20 +69,25 @@ map <ESC>[B <C-Down>
 map <ESC>[C <C-Right>
 map <ESC>[D <C-Left>
 
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+"stay doesn't move the cursor
+
 " Fix-up keycodes
 " PuTTY in XTermR6 mode
-set <F1>=OP
-set <F2>=OQ
-set <F3>=OR
-set <F4>=OS
-set <F5>=[15~
-set <F6>=[17~
-set <F7>=[18~
-set <F8>=[19~
-set <F9>=[20~
-set <F10>=[21~
-set <F11>=[23~
-set <F12>=[24~
+"set <F1>=OP
+"set <F2>=OQ
+"set <F3>=OR
+"set <F4>=OS
+"set <F5>=[15~
+"set <F6>=[17~
+"set <F7>=[18~
+"set <F8>=[19~
+"set <F9>=[20~
+"set <F10>=[21~
+"set <F11>=[23~
+"set <F12>=[24~
 
 " NB: S-F1 == F11, so S-F1 is probably unreachable
 " NB: S-F2 == F12, so S-F2 is probably unreachable
@@ -100,9 +105,9 @@ set <F12>=[24~
 "set <S-F12>=[24~
 
 " C-v {key combination} to insert it
-set <S-F2>=[1;2Q
-set <S-F3>=[1;2R
-set <S-F4>=[1;2S
+" set <S-F2>=[1;2Q
+" set <S-F3>=[1;2R
+" set <S-F4>=[1;2S
 
 "1
 
@@ -129,7 +134,7 @@ colorscheme nature
    if has("win32")
 	"set guifont=DejaVu_Sans_Mono:h12:cANSI, Consolas:h13:cANSI
 	set dir+=$TEMP
-    else
+else
 	"set guifont=DejaVu\ Sans\ Mono\ 11,\ Monospace\ 11
     endif
 
@@ -138,7 +143,11 @@ set scrolloff=6     " Keep some lines above/below the cursor visible
 
 "set mouse=r
 set mouse=ar
-set ttymouse=xterm2 " Works under GNU Screen
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
 "set go -=m
 "set go -=T
 "set go -=r
@@ -185,15 +194,17 @@ nnoremap <silent> + :exe "vertical resize " . (winwidth(0) * 10/9)<CR>
 nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
 nnoremap <Leader>+ :exe "resize " . (winheight(0) * 10/9)<CR>
 nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
+nnoremap <F9> :wa<CR>:Make!<CR>
 nnoremap <F10> :wa<CR>:make<CR>
 nnoremap ; :
+nnoremap <C-f> :CtrlP .<CR>
+nnoremap <Tab>q :Copen<CR>
 
 function! CD()
   if bufname("") !~ "^ftp://"
     lcd %:p:h
   endif
 endfunction
-nnoremap <silent> <F9> :call CD()<CR>
 
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -210,14 +221,14 @@ function! FindAnyFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n ". a:expr." ". path." | grep -v \"\.git/*\" > ".tmp
+	exe "!grep -R -n ". a:expr." ". path." --exclude-dir=build --exclude-dir=include --exclude-dir=\.git > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
 
 function! FindInBuffersFunc( expr )
-	call "cclose"
 	call setqflist([])
+	call "cclose"
 	exe "bufdo silent vimgrepadd! ".a:expr." %"
 	exe "copen"
 endfunction
@@ -229,7 +240,7 @@ function! FindCodeFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cl --include=*.h --include=*.hpp \"". a:expr."\" ". path." | grep -v \"\.git/*\" > ".tmp
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=build --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -241,7 +252,7 @@ function! FindHexFunc( expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.hex ". a:expr." ". path." | grep -v \"\.git/*\" > ".tmp
+	exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=build --exclude-dir=include --exclude-dir=\.git > ".tmp
 	exe "cfile ".tmp
 	exe "copen"
 endfunction
@@ -291,6 +302,10 @@ function! DoxyTabF()range
 	exe range . 'Tabularize /^[^\]]\+]'
 	exe range . 'Tabularize /^[^\]]\+] \+[^ ]\+ \+/l0'
 endfunction
+function! GtagsAutoUpdate()
+        let l:result = system("global -u --single-update=\"" . expand("%") . "\"")
+endfunction
+
 "function! CopenFunc()
 "	exe "cfile ".s:cache."/scons_output.log"
 "	exe "copen"
@@ -337,12 +352,18 @@ set statusline=[%f][%l,%v][%p%%][len=%L][%{fugitive#statusline()}]
 " i = find files which include file
 " normal command
 ":nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+"Definition
 :nmap <C-\>d :cs find g <C-R>=expand("<cword>")<CR><CR>
+"References
 :nmap <C-\>r :cs find c <C-R>=expand("<cword>")<CR><CR>
+"Symbol
 :nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+"String
 :nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
 ":nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+"File
 :nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+"File including file
 :nmap <C-\>i :cs find i <C-R>=expand("<cfile>")<CR><CR>
 ":nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 "
@@ -354,6 +375,7 @@ command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 command! -nargs=0 Conflicts /^[<=>]\{7\}
 command! -nargs=0 MoveToLocation call MoveToLocation_func()
+:autocmd! BufWritePost * call GtagsAutoUpdate()
 
 "Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
@@ -365,6 +387,10 @@ au BufNewFile,BufRead *.cl set filetype=c
 let g:ctrlp_cmd='CtrlPMRU'
 let g:ctrlp_working_path_mode=''
 let g:ctrlp_mruf_relative=1
+let g:ctrlp_custom_ignore= {
+    \ 'dir': 'build$\|data$',
+    \ 'file': '\.o$\|\.pyc$' }
+
 let g:EasyMotion_leader_key = '<Tab>'
 
 "let g:ycm_extra_conf_globlist = [s:home.'/.vim/*']
@@ -378,6 +404,11 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list=1
 let g:ycm_echo_current_diagnostic = 1
+
+let g:ycm_enable_diagnostic_highlighting=0
+nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
+"nnoremap <silent> <C-[> :YcmCompleter GoToDefinition<CR>
+nnoremap <silent> <C-[> :cs find g <C-R>=expand("<cword>")<CR><CR>
 
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
