@@ -1,0 +1,5 @@
+#!/bin/bash
+
+xrandr --auto --output DP-2 --right-of DP-3
+sleep 2
+awesome
