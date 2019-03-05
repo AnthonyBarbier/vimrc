@@ -31,8 +31,12 @@ set backspace=indent,eol,start
 set history=200		" keep 200 lines of command line history
 
 set expandtab
-set shiftwidth=4
-set tabstop=4
+" ACL
+"set shiftwidth=4
+"set tabstop=4
+" Google V8
+set shiftwidth=2
+set tabstop=2
 
 "set ruler		" show the cursor position all the time
 " As above, but with buffer number preceeding usual info
@@ -139,7 +143,6 @@ else
     endif
 
 
-set scrolloff=6     " Keep some lines above/below the cursor visible
 
 "set mouse=r
 set mouse=ar
@@ -221,7 +224,7 @@ function! FindAnyFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n ". a:expr." ". path." --exclude-dir=build --exclude-dir=include --exclude-dir=\.git > ".tmp
+	exe "!grep -R -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -240,7 +243,7 @@ function! FindCodeFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=build --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
+	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -252,7 +255,7 @@ function! FindHexFunc( expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=build --exclude-dir=include --exclude-dir=\.git > ".tmp
+	exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git > ".tmp
 	exe "cfile ".tmp
 	exe "copen"
 endfunction
@@ -376,6 +379,10 @@ command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 command! -nargs=0 Conflicts /^[<=>]\{7\}
 command! -nargs=0 MoveToLocation call MoveToLocation_func()
 :autocmd! BufWritePost * call GtagsAutoUpdate()
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+command! -nargs=0 OverLength :match OverLength /\%81v.\+/
+command! -nargs=0 NoOverLength :match none
 
 "Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
