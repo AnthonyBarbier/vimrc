@@ -413,6 +413,11 @@ let g:ycm_always_populate_location_list=1
 let g:ycm_echo_current_diagnostic = 1
 
 let g:ycm_enable_diagnostic_highlighting=0
+
+" use overlay feature:
+let g:choosewin_overlay_enable = 1
+nmap = <Plug>(choosewin)
+
 nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
 "nnoremap <silent> <C-[> :YcmCompleter GoToDefinition<CR>
 nnoremap <silent> <C-[> :cs find g <C-R>=expand("<cword>")<CR><CR>
