@@ -72,6 +72,9 @@ map <ESC>[A <C-Up>
 map <ESC>[B <C-Down>
 map <ESC>[C <C-Right>
 map <ESC>[D <C-Left>
+" Screen messes up Home / End
+map <ESC>[H <Home>
+map <ESC>[F <End>
 
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -198,10 +201,23 @@ nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
 nnoremap <Leader>+ :exe "resize " . (winheight(0) * 10/9)<CR>
 nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
 nnoremap <F9> :wa<CR>:Make!<CR>
-nnoremap <F10> :wa<CR>:make<CR>
+nnoremap <F10> :wa<CR>:call MyMake()<CR>
 nnoremap ; :
 nnoremap <C-f> :CtrlP .<CR>
 nnoremap <Tab>q :Copen<CR>
+
+function! MyMake()
+  let tmp=tempname()
+  exe "silent !clear; stdbuf -o0 ./build.sh 2>&1 | tee ".tmp." && (exit ${PIPESTATUS[0]})"
+  if v:shell_error
+    exe "cfile ".tmp
+    exe "copen"
+    exe "silent !notify-send 'Build Failed' -i /usr/share/icons/gnome/48x48/emotes/face-crying.png"
+  else
+    exe "silent !notify-send 'Build successful' -i /usr/share/icons/gnome/48x48/emotes/face-smile.png"
+  end
+  redraw!
+endfunction
 
 function! CD()
   if bufname("") !~ "^ftp://"
@@ -243,9 +259,19 @@ function! FindCodeFunc( prefix, expr, ... )
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
+	exe "!grep -R -n --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=benchmarks --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
+endfunction
+
+function! FindCodeLongFunc( prefix, ...)
+	if a:0 > 0
+		let path = a:1
+	else
+		let path= "."
+	end
+	call FindCodeFunc( a:prefix, '.\{81\}', path)
+	"exe "OverLength"
 endfunction
 
 function! FindHexFunc( expr, ... )
@@ -320,6 +346,7 @@ command! -nargs=* -complete=file OpenFiles call OpenFilesFunc('-maxdepth 1',<f-a
 command! -nargs=* -complete=file OpenAll call OpenFilesFunc('',<f-args>)
 command! -nargs=* -complete=file FindInBuffers call FindInBuffersFunc(<f-args>)
 command! -nargs=* -complete=file FindCode call FindCodeFunc("c",<f-args>)
+command! -nargs=* -complete=file FindCodeLong call FindCodeLongFunc("c",<f-args>)
 command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
 command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
 command! -nargs=* -complete=file FindAnyl call FindAnyFunc("l", <f-args>)
@@ -343,7 +370,10 @@ let GtagsCscope_Auto_Map = 0
 let GtagsCscope_Quiet = 1
 set cscopetag
 set csverb
-set statusline=[%f][%l,%v][%p%%][len=%L][%{fugitive#statusline()}]
+let g:choosewin_label='ADFJKLGHQWERUIO'
+
+set statusline=%q[%f][%v,%l/%L][%p%%]
+"set statusline=[%f][%l,%v][%p%%][len=%L][%{fugitive#statusline()}]
 
 " g = definition
 " c = references
@@ -415,7 +445,7 @@ let g:ycm_echo_current_diagnostic = 1
 let g:ycm_enable_diagnostic_highlighting=0
 
 " use overlay feature:
-let g:choosewin_overlay_enable = 1
+let g:choosewin_overlay_enable = 0
 nmap = <Plug>(choosewin)
 
 nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
