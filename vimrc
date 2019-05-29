@@ -76,7 +76,9 @@ map <ESC>[C <C-Right>
 map <ESC>[D <C-Left>
 " Screen messes up Home / End
 map <ESC>[H <Home>
+imap <ESC>[H <Home>
 map <ESC>[F <End>
+imap <ESC>[F <End>
 
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
