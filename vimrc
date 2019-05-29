@@ -431,6 +431,7 @@ command! -nargs=0 NoOverLength :match none
 
 "Open .cl files as C files
 au BufNewFile,BufRead *.cl set filetype=c
+au BufEnter * :checktime
 
 "Make ctrlp browse buffers instead of files by default
 let g:ctrlp_cmd='CtrlPMRU'
