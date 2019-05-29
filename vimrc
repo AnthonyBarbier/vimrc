@@ -37,6 +37,8 @@ set expandtab
 " Google V8
 set shiftwidth=2
 set tabstop=2
+set softtabstop=2
+set smarttab
 
 "set ruler		" show the cursor position all the time
 " As above, but with buffer number preceeding usual info
