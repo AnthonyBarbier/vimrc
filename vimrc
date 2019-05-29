@@ -379,6 +379,14 @@ let g:choosewin_label='ADFJKLGHQWERUIO'
 set statusline=%q[%f][%v,%l/%L][%p%%]
 "set statusline=[%f][%l,%v][%p%%][len=%L][%{fugitive#statusline()}]
 
+"Remap the numpad to leader keys:
+nmap <Leader>1 <k1>
+nmap <Leader>2 <k2>
+nmap <Leader>3 <k3>
+nmap <Leader>4 <k4>
+nmap <Leader>5 <k5>
+nmap <Leader>6 <k6>
+
 " g = definition
 " c = references
 " t = string
