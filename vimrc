@@ -15,6 +15,7 @@ let &undodir=s:cache
 set undofile
 set undolevels=1000
 set undoreload=10000
+set ttyfast
 
 "auto completion for files
 set wildmenu
@@ -209,6 +210,8 @@ nnoremap <F10> :wa<CR>:call MyMake()<CR>
 nnoremap ; :
 nnoremap <C-f> :CtrlP .<CR>
 nnoremap <Tab>q :Copen<CR>
+nnoremap <C-e> 10<C-e>
+nnoremap <C-y> 10<C-y>
 
 function! MyMake()
   let tmp=tempname()
@@ -453,9 +456,11 @@ let g:ycm_autoclose_preview_window_after_completion = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list=1
-let g:ycm_echo_current_diagnostic = 1
-
 let g:ycm_enable_diagnostic_highlighting=0
+" Trying to speed up vim scrolling:
+let g:ycm_echo_current_diagnostic = 0 "Causes slow down
+let g:ycm_auto_trigger = 0 "Use C-Space for auto complete
+let g:ycm_key_invoke_completion = '<C-Space>'
 
 " use overlay feature:
 let g:choosewin_overlay_enable = 0

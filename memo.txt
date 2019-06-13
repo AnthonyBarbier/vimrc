@@ -1,0 +1,21 @@
+z<CR> - scroll so current line is at the top of your screen
+z. - scroll so current line is in the middle of your screen
+z- - scroll so current line is at the bottom of your screen
+
+Keep cursor in same position:
+
+zt for top
+zb for bottom
+zz (LOWERCASE) for middle
+
+<C-e> Scroll down one line
+<C-y> Scroll up one line
+
+Folding: https://vim.fandom.com/wiki/Folding
+zc / zo / za : close/open/toggle fold
+zC/zO/zA: all folds
+zr/zR/zm/zM : close / open one more level throughout the file
+
+zf`a : fold from current line to marker 'a'
+zf3j: fold next 3 lines
+zfa} fold current block
