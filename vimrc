@@ -81,9 +81,12 @@ imap <ESC>[H <Home>
 map <ESC>[F <End>
 imap <ESC>[F <End>
 
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+":verbose map /
+"nunmap /
+"nunmap ?
+"map /  <Plug>(incsearch-forward)
+"map ?  <Plug>(incsearch-backward)
+"map g/ <Plug>(incsearch-stay)
 "stay doesn't move the cursor
 
 " Fix-up keycodes
