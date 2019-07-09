@@ -168,6 +168,11 @@ au BufNewFile,BufRead scons* set filetype=scons
 au BufNewFile,BufRead *.scons set filetype=scons
 au BufNewFile,BufRead *.md set filetype=markdown
 
+augroup vimrc
+    au BufReadPre * setlocal foldmethod=indent
+    au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+augroup END
+
 set number
 set hidden
 set cindent
