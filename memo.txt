@@ -19,3 +19,11 @@ zr/zR/zm/zM : close / open one more level throughout the file
 zf`a : fold from current line to marker 'a'
 zf3j: fold next 3 lines
 zfa} fold current block
+
+:<C-f> or /<C-f> or q: --> Edit last commands and press enter to execute
+
+easymotion:
+<tab>f/F find char
+<tab>t/T find before char
+<tab>w/W find word forward
+<tab>b/B find word backward

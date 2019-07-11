@@ -308,7 +308,7 @@ function! CscopeCreate_func(...)
 		let path= "."
 	end
 	let tmp=tempname()
-	let result = system('find '.path.' -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.hpp" > '.tmp)
+	let result = system('find '.path.' -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" > '.tmp)
 	exe "!cat ".tmp
 	let result = system("cscope -b -q -i ".tmp)
 	exe "cscope add cscope.out"
@@ -454,6 +454,7 @@ let g:ctrlp_custom_ignore= {
 
 let g:EasyMotion_leader_key = '<Tab>'
 
+let g:ycm_clangd_args='-background-index'
 "let g:ycm_extra_conf_globlist = [s:home.'/.vim/*']
 "let g:ycm_global_ycm_extra_conf= s:home .'/.vim/'
 "let g:ycm_server_keep_logfiles =1
@@ -466,7 +467,7 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list=1
 let g:ycm_enable_diagnostic_highlighting=0
 " Trying to speed up vim scrolling:
-let g:ycm_echo_current_diagnostic = 0 "Causes slow down
+let g:ycm_echo_current_diagnostic = 1 "Causes slow down
 let g:ycm_auto_trigger = 0 "Use C-Space for auto complete
 let g:ycm_key_invoke_completion = '<C-Space>'
 

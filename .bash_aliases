@@ -36,3 +36,6 @@ alias gfc='git fetch -p && git checkout origin/master'
 #alias gerrit_head_release='git push origin HEAD:refs/for/branches/arm_compute_17_06'
 alias myalert='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias myalerttxt='notify-send --urgency=critical '
+
+# Clever Ctrl-r: https://launchpad.net/ubuntu/disco/amd64/fzf/0.17.5-2
+source /usr/share/doc/fzf/examples/key-bindings.bash

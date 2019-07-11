@@ -58,3 +58,6 @@
 [submodule "vim-src"]
 	path = vim-src
 	url = https://github.com/vim/vim.git
+[submodule "bundle/bazel-compilation"]
+	path = bundle/bazel-compilation
+	url = https://github.com/grailbio/bazel-compilation-database.git
