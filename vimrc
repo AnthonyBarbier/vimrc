@@ -248,14 +248,14 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
-function! FindAnyFunc( prefix, expr, ... )
+function! FindAnyFunc( flags, prefix, expr, ... )
 	if a:0 > 0
 		let path = a:1
 	else
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git > ".tmp
+	exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -267,14 +267,14 @@ function! FindInBuffersFunc( expr )
 	exe "copen"
 endfunction
 
-function! FindCodeFunc( prefix, expr, ... )
+function! FindCodeFunc( flags, prefix, expr, ... )
 	if a:0 > 0
 		let path = a:1
 	else
 		let path= "."
 	end
 	let tmp=tempname()
-	exe "!grep -R -n --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=benchmarks --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
+	exe "!grep -R -n ". a:flags." --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=benchmarks --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
 	exe a:prefix."file ".tmp
 	exe a:prefix."open"
 endfunction
@@ -285,7 +285,7 @@ function! FindCodeLongFunc( prefix, ...)
 	else
 		let path= "."
 	end
-	call FindCodeFunc( a:prefix, '.\{81\}', path)
+	call FindCodeFunc( "", a:prefix, '.\{81\}', path)
 	"exe "OverLength"
 endfunction
 
@@ -360,11 +360,13 @@ command! -nargs=* Ctags !ctags -R -a <f-args>
 command! -nargs=* -complete=file OpenFiles call OpenFilesFunc('-maxdepth 1',<f-args>)
 command! -nargs=* -complete=file OpenAll call OpenFilesFunc('',<f-args>)
 command! -nargs=* -complete=file FindInBuffers call FindInBuffersFunc(<f-args>)
-command! -nargs=* -complete=file FindCode call FindCodeFunc("c",<f-args>)
+command! -nargs=* -complete=file FindCode call FindCodeFunc("", "c",<f-args>)
+command! -nargs=* -complete=file FindCodeIgnoreCase call FindCodeFunc("-i", "c",<f-args>)
 command! -nargs=* -complete=file FindCodeLong call FindCodeLongFunc("c",<f-args>)
-command! -nargs=* -complete=file FindAny call FindAnyFunc("c", <f-args>)
-command! -nargs=* -complete=file FindCodel call FindCodeFunc("l",<f-args>)
-command! -nargs=* -complete=file FindAnyl call FindAnyFunc("l", <f-args>)
+command! -nargs=* -complete=file FindAny call FindAnyFunc("","c", <f-args>)
+command! -nargs=* -complete=file FindAnyIgnoreCase call FindAnyFunc("-i", "c", <f-args>)
+command! -nargs=* -complete=file FindCodel call FindCodeFunc("", "l",<f-args>)
+command! -nargs=* -complete=file FindAnyl call FindAnyFunc("", "l", <f-args>)
 command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
 command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
 command! -nargs=1 Open call Open(<args>)
@@ -448,13 +450,14 @@ au BufEnter * :checktime
 let g:ctrlp_cmd='CtrlPMRU'
 let g:ctrlp_working_path_mode=''
 let g:ctrlp_mruf_relative=1
+let g:ctrlp_max_depth=40
 let g:ctrlp_custom_ignore= {
     \ 'dir': 'build$\|data$',
     \ 'file': '\.o$\|\.pyc$' }
 
 let g:EasyMotion_leader_key = '<Tab>'
 
-let g:ycm_clangd_args='-background-index'
+"let g:ycm_clangd_args='-background-index'
 "let g:ycm_extra_conf_globlist = [s:home.'/.vim/*']
 "let g:ycm_global_ycm_extra_conf= s:home .'/.vim/'
 "let g:ycm_server_keep_logfiles =1

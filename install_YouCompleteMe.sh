@@ -26,4 +26,6 @@ git submodule update --init --recursive
 
 cd `dirname $0`/bundle/YouCompleteMe/
 
-./install.sh --clang-completer
+python3 install.py --clang-completer --clangd-completer
+# Old version
+# ./install.sh --clang-completer
