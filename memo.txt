@@ -33,6 +33,8 @@ i : change layout ( let g:netrw_liststyle = 3 to make it permanent)
 :Explore / Vexplore / Sexplore
 banner show/hide: I
 
+:e %%/ -> Edit file in same folder
+
 TODO:
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth

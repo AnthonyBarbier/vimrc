@@ -54,6 +54,7 @@ set dir-=.	" Remove the current directory from the list of places to keep swap f
 		" cleaner
 set fileformats=unix,dos,mac	" Enable autodetection of newline formats
 set list lcs=tab:¬.,trail:#
+cabbr <expr> %% expand('%:p:h')
 
 "set complete=.,w,b,u,t,i
 set complete=.,w,b,u,t
