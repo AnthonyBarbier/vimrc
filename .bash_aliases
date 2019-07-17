@@ -1,4 +1,5 @@
 export PATH=/home/anthonyb/scratch/vimrc/install/bin:/home/anthonyb/bin:$PATH
+export TF_POPLAR_SANDBOX=/scratch/anthonyb/workspace/poplar/build_release/install/
 alias apply_astyle='astyle $ASTYLE_PARAMETERS'
 
 #alias maketags='mkdir -p $MAKEOBJDIRPREFIX/$(pwd -P) && gtags -i $MAKEOBJDIRPREFIX/$(pwd -P)'

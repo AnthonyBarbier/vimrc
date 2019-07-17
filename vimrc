@@ -196,7 +196,9 @@ nnoremap <S-F4> :exe "ll".line('.')<CR>
 " Jump to quickwindow line when double clicking on a line in the quickwindow
 nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
 nnoremap <silent><F7> :GundoToggle<CR>
-nnoremap <F5> :GitGutterNextHunk<CR>
+nnoremap <F8> :GitGutterNextHunk<CR>
+nnoremap <silent> <F5> :cp<CR><C-o>
+nnoremap <silent> <F6> :cn<CR><C-o>
 " Pull / push a change from current buffer when in diff mode
 "nnoremap <silent> <F5> :.,.diffget<CR>:diffupdate<CR>]c
 "nnoremap <silent> <F6> :.,.diffput<CR>:diffupdate<CR>]c
@@ -216,12 +218,23 @@ nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
 nnoremap <Leader>+ :exe "resize " . (winheight(0) * 10/9)<CR>
 nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
 nnoremap <F9> :wa<CR>:Make!<CR>
-nnoremap <F10> :wa<CR>:call MyMake()<CR>
+"nnoremap <F10> :wa<CR>:call MyMake()<CR>
+nnoremap <F10> :wa<CR>:call MakeBazel()<CR>
 nnoremap ; :
-nnoremap <C-f> :CtrlP .<CR>
+nnoremap <C-f> :FZF<CR>
 nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
+
+function! MakeBazel()
+  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:]
+  exe "silent !clear; stdbuf -o0 ./build.sh 2>&1 | tee tmp_output.log && (exit ${PIPESTATUS[0]})"
+  "exe "make"
+  cfile tmp_output.log
+  copen
+  set errorformat&
+  redraw!
+endfunction
 
 function! MyMake()
   let tmp=tempname()
@@ -435,11 +448,16 @@ command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 command! -nargs=0 Conflicts /^[<=>]\{7\}
 command! -nargs=0 MoveToLocation call MoveToLocation_func()
+"command! -nargs=0 IgnoreWarningsOn :set errorformat=%EERROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m
+":set errorformat=%EERROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%CIn\ file\ included\ from\ %f:%l:%c%m,%-GINFO:\ %m,%-GWARNING:\ %m,%-G%f:%l:%c:\ %tarning:%m,%C%*[\ ]from\ %f:%l%m
+"command! -nargs=0 IgnoreWarningsOff :set errorformat&
+
 :autocmd! BufWritePost * call GtagsAutoUpdate()
 
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 command! -nargs=0 OverLength :match OverLength /\%81v.\+/
 command! -nargs=0 NoOverLength :match none
+command! -nargs=0 CopyFilename let @"=expand("%")
 
 "Create a bookmark for the current cursor with the word under the cursor as id
 :nmap <Leader>b :Bookmark <C-R>=expand("<cword>")<CR>
@@ -480,6 +498,7 @@ let g:ycm_key_invoke_completion = '<C-Space>'
 let g:choosewin_overlay_enable = 0
 nmap = <Plug>(choosewin)
 
+nnoremap <C-\>] :tag <C-R>=expand("<cword>")<CR><CR>
 nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
 "nnoremap <silent> <C-[> :YcmCompleter GoToDefinition<CR>
 nnoremap <silent> <C-[> :cs find g <C-R>=expand("<cword>")<CR><CR>
