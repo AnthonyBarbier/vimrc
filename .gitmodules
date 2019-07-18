@@ -61,3 +61,6 @@
 [submodule "bundle/bazel-compilation"]
 	path = bundle/bazel-compilation
 	url = https://github.com/grailbio/bazel-compilation-database.git
+[submodule "bundle/fzf"]
+	path = bundle/fzf
+	url = https://github.com/junegunn/fzf.git
