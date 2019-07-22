@@ -46,7 +46,7 @@ flags = "-c -fPIC -DGLES_VERSION=2 -fpermissive -std=c++0x -D_GLIBCXX_USE_NANOSL
 #
 # Most projects will NOT need to set this to anything; you can just change the
 # 'flags' list of compilation flags. Notice that YCM itself uses that approach.
-compilation_database_folder = ''
+compilation_database_folder = '.'
 
 if os.path.exists( compilation_database_folder ):
   database = ycm_core.CompilationDatabase( compilation_database_folder )

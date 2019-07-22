@@ -226,14 +226,18 @@ nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
 
-function! MakeBazel()
-  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:]
-  exe "silent !clear; stdbuf -o0 ./build.sh 2>&1 | tee tmp_output.log && (exit ${PIPESTATUS[0]})"
-  "exe "make"
-  cfile tmp_output.log
+function! LoadLogfile( logfile )
+  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
+  exe "cfile ".a:logfile
   copen
   set errorformat&
   redraw!
+endfunction
+
+function! MakeBazel()
+  "exe "silent !clear; stdbuf -o0 ./build.sh 2>&1 | tee tmp_output.log && (exit ${PIPESTATUS[0]})"
+  make
+  call LoadLogfile("output.log")
 endfunction
 
 function! MyMake()
@@ -384,6 +388,7 @@ command! -nargs=* -complete=file FindCodel call FindCodeFunc("", "l",<f-args>)
 command! -nargs=* -complete=file FindAnyl call FindAnyFunc("", "l", <f-args>)
 command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
 command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
+command! -nargs=1 -complete=file LoadLogfile call LoadLogfile(<f-args>)
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
@@ -513,3 +518,5 @@ hi SignColumn   ctermfg=DarkYellow ctermbg=Black      guifg=#C4A000    guibg=#00
 hi GitGutterAdd ctermfg=DarkGreen ctermbg=Black
 hi GitGutterChange ctermfg=DarkYellow ctermbg=Black
 hi GitGutterDelete ctermfg=DarkRed ctermbg=Black
+
+unmap <Esc>
