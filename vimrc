@@ -227,7 +227,8 @@ nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
 
 function! LoadLogfile( logfile )
-  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
+  "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
+  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f)
   exe "cfile ".a:logfile
   copen
   set errorformat&
@@ -520,3 +521,5 @@ hi GitGutterChange ctermfg=DarkYellow ctermbg=Black
 hi GitGutterDelete ctermfg=DarkRed ctermbg=Black
 
 unmap <Esc>
+" Prevent YCM from closing the quickfix window
+set eventignore=WinLeave

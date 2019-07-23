@@ -1,5 +1,7 @@
 :tag <C-R><C-w> To jump to tag in help (Or <C-\>] with current vimrc)
 
+Paste in terminal mode: <C-w>"{reg}
+
 z<CR> - scroll so current line is at the top of your screen
 z. - scroll so current line is in the middle of your screen
 z- - scroll so current line is at the bottom of your screen
