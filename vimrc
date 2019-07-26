@@ -194,7 +194,7 @@ nnoremap <S-F3> :lnext<CR>
 nnoremap <silent> <F4> :exe "cc".line('.')<CR>
 nnoremap <S-F4> :exe "ll".line('.')<CR>
 " Jump to quickwindow line when double clicking on a line in the quickwindow
-nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
+"nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
 nnoremap <silent><F7> :GundoToggle<CR>
 nnoremap <F8> :GitGutterNextHunk<CR>
 nnoremap <silent> <F5> :cp<CR><C-o>
@@ -483,6 +483,7 @@ let g:ctrlp_custom_ignore= {
 
 let g:EasyMotion_leader_key = '<Tab>'
 
+let g:ycm_use_clangd = 0
 "let g:ycm_clangd_args='-background-index'
 "let g:ycm_extra_conf_globlist = [s:home.'/.vim/*']
 "let g:ycm_global_ycm_extra_conf= s:home .'/.vim/'
