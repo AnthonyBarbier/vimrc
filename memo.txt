@@ -42,6 +42,10 @@ banner show/hide: I
 Navigate through quickfix history:
 :colder / :cnewer
 
+<F8> : Next Git hunk
+<C-F> : Print current filename:line in insert mode
+<C-F>: Copy current filename:line to unnamed register
+
 TODO:
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth

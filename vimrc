@@ -225,6 +225,8 @@ nnoremap <C-f> :FZF<CR>
 nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
+inoremap <C-F> <C-R>=expand("%").":".line(".")<CR>
+nnoremap <C-F> :let @@=expand("%").":".line(".")<CR>
 
 function! LoadLogfile( logfile )
   "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
