@@ -226,7 +226,21 @@ nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
 inoremap <C-F> <C-R>=expand("%").":".line(".")<CR>
-nnoremap <C-F> :let @@=expand("%").":".line(".")<CR>
+"nnoremap <Esc>f :let @@=expand("%").":".line(".")<CR>
+
+function! LoadOther (file_no_ext, ext, ...)
+  if a:0 > 0
+    exe "edit ".a:file_no_ext.".".a:1
+  else
+    if a:ext == 'cc'
+      exe "edit ".a:file_no_ext.".h"
+    else
+      exe "edit ".a:file_no_ext.".cc"
+    end
+  end
+endfunction
+
+command! -nargs=? Other call LoadOther(expand("%:r"),expand("%:e"),"<args>")
 
 function! LoadLogfile( logfile )
   "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
