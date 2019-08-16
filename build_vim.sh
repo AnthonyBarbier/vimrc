@@ -2,7 +2,7 @@
 set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd vim-src
-sudo apt-get install build-essential cmake python-dev libperl-dev -y
+sudo apt-get install build-essential cmake python-dev libperl-dev libncurses-dev -y
 ./configure \
    --enable-multibyte \
    --enable-perlinterp=yes \
