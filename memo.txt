@@ -50,6 +50,8 @@ Navigate through quickfix history:
 
 **<tab> : FZF in bash
 
+CamelCaseMotion: \w \e \b (Next beginning / end of work, backward)
+
 TODO:
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth

@@ -20,7 +20,7 @@ set ttyfast
 "auto completion for files
 set wildmenu
 "set wildignore=*.bak,*.o,*.e,*~ " Wildmenu: ignore these extensions.
-set wildmode=longest:list,full 
+set wildmode=longest:list,full
 
 "Auto completion mode for commands
 set completeopt=longest,menu,preview
