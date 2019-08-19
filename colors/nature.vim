@@ -32,7 +32,7 @@ hi Title        ctermfg=White      ctermbg=DarkCyan   guifg=#EEEEEC    guibg=#06
 hi VertSplit    ctermfg=White      ctermbg=Black      guifg=#EEEEEC    guibg=#000000
 hi Directory    ctermfg=Cyan       ctermbg=DarkBlue   guifg=#34E2E2    guibg=#3465A4
 hi Cursor       ctermfg=White      ctermbg=White      guifg=#EEEEEC    guibg=#EEEEEC
-hi StatusLine   ctermfg=White      ctermbg=Black      guifg=#EEEEEC    guibg=#000000 cterm=bold,underline term=bold gui=bold,underline
 hi SpecialKey   ctermfg=DarkYellow ctermbg=Black      guifg=#D3D7CF    guibg=#000000
+hi StatusLine   ctermfg=Black      ctermbg=White      guifg=#EEEEEC    guibg=#000000 cterm=bold,underline term=bold gui=bold,underline
 hi StatusLineNC ctermfg=Gray       ctermbg=Black      guifg=#D3D7CF    guibg=#000000 cterm=bold,underline term=bold gui=bold,underline
 hi LineNr       ctermfg=DarkYellow ctermbg=Black      guifg=#C4A000    guibg=#000000 cterm=none term=bold
