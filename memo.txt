@@ -32,6 +32,8 @@ easymotion:
 <tab>w/W find word forward
 <tab>b/B find word backward
 
+\b : Bookmark with name under cursor
+
 Explore: https://shapeshed.com/vim-netrw/
 i : change layout ( let g:netrw_liststyle = 3 to make it permanent)
 :Explore / Vexplore / Sexplore
@@ -46,8 +48,9 @@ Navigate through quickfix history:
 <C-F> : Print current filename:line in insert mode
 <C-F>: Copy current filename:line to unnamed register
 
+**<tab> : FZF in bash
+
 TODO:
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth
-Fuzzy search: https://github.com/junegunn/fzf.git
 Advanced: https://github.com/junegunn/fzf.vim.git

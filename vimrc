@@ -29,7 +29,7 @@ set shell=/bin/bash
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set history=200		" keep 200 lines of command line history
+set history=200  " keep 200 lines of command line history
 
 set expandtab
 " ACL
@@ -41,19 +41,19 @@ set tabstop=2
 set softtabstop=2
 set smarttab
 
-"set ruler		" show the cursor position all the time
+"set ruler   " show the cursor position all the time
 " As above, but with buffer number preceeding usual info
 "set statusline=%-0n\ %<%f\ %h%m%r%=%-14.(%l, %c%V%)\ %P
-set laststatus=2	" Always show statusline, if there's only one window
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
-set splitright		" Horizontal splits should put the new window BELOW
-set splitbelow		" Vertical splits should put the new window RIGHT
-set spelllang=en_gb	" Proper English ;-)
-set dir-=.	" Remove the current directory from the list of places to keep swap files. This makes SVN usage a lot
-		" cleaner
-set fileformats=unix,dos,mac	" Enable autodetection of newline formats
-set list lcs=tab:¬.,trail:#
+set laststatus=2    " Always show statusline, if there's only one window
+set showcmd         " display incomplete commands
+set incsearch       " do incremental searching
+set splitright      " Horizontal splits should put the new window BELOW
+set splitbelow      " Vertical splits should put the new window RIGHT
+set spelllang=en_gb " Proper English ;-)
+set dir-=.          " Remove the current directory from the list of places to keep swap files. This makes SVN usage a lot
+                    " cleaner
+set fileformats=unix,dos,mac " Enable autodetection of newline formats
+set list lcs=tab:~.,trail:#
 cabbr <expr> %% expand('%:p:h')
 
 "set complete=.,w,b,u,t,i
@@ -148,10 +148,10 @@ colorscheme nature
  filetype plugin indent on
  set guifont=Liberation\ Mono\ 8
    if has("win32")
-	"set guifont=DejaVu_Sans_Mono:h12:cANSI, Consolas:h13:cANSI
-	set dir+=$TEMP
+"set guifont=DejaVu_Sans_Mono:h12:cANSI, Consolas:h13:cANSI
+set dir+=$TEMP
 else
-	"set guifont=DejaVu\ Sans\ Mono\ 11,\ Monospace\ 11
+"set guifont=DejaVu\ Sans\ Mono\ 11,\ Monospace\ 11
     endif
 
 
@@ -229,13 +229,20 @@ inoremap <C-F> <C-R>=expand("%").":".line(".")<CR>
 "nnoremap <Esc>f :let @@=expand("%").":".line(".")<CR>
 
 function! LoadOther (file_no_ext, ext, ...)
-  if a:0 > 0
+  if a:0 > 0 && a:1 != ""
     exe "edit ".a:file_no_ext.".".a:1
   else
     if a:ext == 'cc'
       exe "edit ".a:file_no_ext.".h"
-    else
+    elseif a:ext == 'h'
       exe "edit ".a:file_no_ext.".cc"
+    elseif a:ext == 'hpp'
+      " s/include/lib/
+      let l:path = substitute(a:file_no_ext, "/include/","/lib/","")
+      exe "edit ".l:path.".cpp"
+    elseif a:ext == 'cpp'
+      let l:path = substitute(a:file_no_ext, "/lib/","/include/", "")
+      exe "edit ".l:path.".hpp"
     end
   end
 endfunction
@@ -285,91 +292,91 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
 function! FindAnyFunc( flags, prefix, expr, ... )
-	if a:0 > 0
-		let path = a:1
-	else
-		let path= "."
-	end
-	let tmp=tempname()
-	exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git > ".tmp
-	exe a:prefix."file ".tmp
-	exe a:prefix."open"
+    if a:0 > 0
+        let path = a:1
+    else
+        let path= "."
+    end
+    let tmp=tempname()
+    exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=\.git > ".tmp
+    exe a:prefix."file ".tmp
+    exe a:prefix."open"
 endfunction
 
 function! FindInBuffersFunc( expr )
-	call setqflist([])
-	call "cclose"
-	exe "bufdo silent vimgrepadd! ".a:expr." %"
-	exe "copen"
+    call setqflist([])
+    call "cclose"
+    exe "bufdo silent vimgrepadd! ".a:expr." %"
+    exe "copen"
 endfunction
 
 function! FindCodeFunc( flags, prefix, expr, ... )
-	if a:0 > 0
-		let path = a:1
-	else
-		let path= "."
-	end
-	let tmp=tempname()
-	exe "!grep -R -n ". a:flags." --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=benchmarks --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
-	exe a:prefix."file ".tmp
-	exe a:prefix."open"
+    if a:0 > 0
+        let path = a:1
+    else
+        let path= "."
+    end
+    let tmp=tempname()
+    exe "!grep -R -n ". a:flags." --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=benchmarks --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
+    exe a:prefix."file ".tmp
+    exe a:prefix."open"
 endfunction
 
 function! FindCodeLongFunc( prefix, ...)
-	if a:0 > 0
-		let path = a:1
-	else
-		let path= "."
-	end
-	call FindCodeFunc( "", a:prefix, '.\{81\}', path)
-	"exe "OverLength"
+    if a:0 > 0
+        let path = a:1
+    else
+        let path= "."
+    end
+    call FindCodeFunc( "", a:prefix, '.\{81\}', path)
+    "exe "OverLength"
 endfunction
 
 function! FindHexFunc( expr, ... )
-	if a:0 > 0
-		let path = a:1
-	else
-		let path= "."
-	end
-	let tmp=tempname()
-	exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=include --exclude-dir=\.git > ".tmp
-	exe "cfile ".tmp
-	exe "copen"
+    if a:0 > 0
+        let path = a:1
+    else
+        let path= "."
+    end
+    let tmp=tempname()
+    exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=\.git > ".tmp
+    exe "cfile ".tmp
+    exe "copen"
 endfunction
 
 function! CscopeCreate_func(...)
-	if a:0 > 0
-		let path = join(a:000)
-	else
-		let path= "."
-	end
-	let tmp=tempname()
-	let result = system('find '.path.' -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" > '.tmp)
-	exe "!cat ".tmp
-	let result = system("cscope -b -q -i ".tmp)
-	exe "cscope add cscope.out"
-	exe "CCTreeLoadDB cscope.out"
+    if a:0 > 0
+        let path = join(a:000)
+    else
+        let path= "."
+    end
+    let tmp=tempname()
+    let result = system('find '.path.' -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" > '.tmp)
+    exe "!cat ".tmp
+    let result = system("cscope -b -q -i ".tmp)
+    exe "cscope add cscope.out"
+    exe "CCTreeLoadDB cscope.out"
 endfunction
 
 function! OpenFilesFunc( extra, ... )
-	if a:0 > 0
-		let path = a:1
-	else
-		let path = '.'
-	end
-	let cmd="find ".path." ".a:extra
-	if a:0 < 2
-		let cmd= cmd." -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.cl'"
-	else
-		let i = 2
-		let cmd = cmd." -name '*.". a:000[1]."'"
-		while i < a:0
-			let cmd = cmd." -o -name '*.". a:000[i]."'"
-			let i += 1
-		endwhile
-	end
-	let result = system(cmd."| tr '\n' ' '")
-	exe "args ".result
+    if a:0 > 0
+        let path = a:1
+    else
+        let path = '.'
+    end
+    let cmd="find ".path." ".a:extra
+    if a:0 < 2
+        let cmd= cmd." -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.cl'"
+    else
+        let i = 2
+        let cmd = cmd." -name '*.". a:000[1]."'"
+        while i < a:0
+            let cmd = cmd." -o -name '*.". a:000[i]."'"
+            let i += 1
+        endwhile
+    end
+    let result = system(cmd."| tr '\n' ' '")
+    exe "args ".result
 endfunction
 
 function! MoveToLocation_func()
@@ -378,17 +385,17 @@ function! MoveToLocation_func()
 endfunction
 
 function! DoxyTabF()range
-	let range = a:firstline . ',' . a:lastline
-	exe range . 'Tabularize /^[^\]]\+]'
-	exe range . 'Tabularize /^[^\]]\+] \+[^ ]\+ \+/l0'
+    let range = a:firstline . ',' . a:lastline
+    exe range . 'Tabularize /^[^\]]\+]'
+    exe range . 'Tabularize /^[^\]]\+] \+[^ ]\+ \+/l0'
 endfunction
 function! GtagsAutoUpdate()
         let l:result = system("global -u --single-update=\"" . expand("%") . "\"")
 endfunction
 
 "function! CopenFunc()
-"	exe "cfile ".s:cache."/scons_output.log"
-"	exe "copen"
+"    exe "cfile ".s:cache."/scons_output.log"
+"    exe "copen"
 "endfunction
 
 "command! -nargs=0 Copen call CopenFunc()
@@ -516,6 +523,10 @@ let g:ycm_enable_diagnostic_highlighting=0
 let g:ycm_echo_current_diagnostic = 1 "Causes slow down
 let g:ycm_auto_trigger = 0 "Use C-Space for auto complete
 let g:ycm_key_invoke_completion = '<C-Space>'
+
+map \w <Plug>CamelCaseMotion_w
+map \e <Plug>CamelCaseMotion_e
+map \q <Plug>CamelCaseMotion_b
 
 " use overlay feature:
 let g:choosewin_overlay_enable = 0
