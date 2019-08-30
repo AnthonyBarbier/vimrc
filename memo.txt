@@ -50,6 +50,15 @@ Navigate through quickfix history:
 
 **<tab> : FZF in bash
 
+Choose Window:
+= : select window
+= s: swap windows
+= S: swap but keep focus
+= -: go to previous
+
+Switch to last window:
+<C-W><C-P>
+
 CamelCaseMotion: \w \e \b (Next beginning / end of work, backward)
 
 TODO:
