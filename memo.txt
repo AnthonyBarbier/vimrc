@@ -61,7 +61,11 @@ Switch to last window:
 
 CamelCaseMotion: \w \e \b (Next beginning / end of work, backward)
 
+Save: :mksession /path/to/saved/session
+Restore: :source /path/to/saved/session
+
 TODO:
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth
 Advanced: https://github.com/junegunn/fzf.vim.git
+https://docs.python.org/3/using/cmdline.html#envvar-PYTHONFAULTHANDLER

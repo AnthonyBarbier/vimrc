@@ -251,7 +251,7 @@ command! -nargs=? Other call LoadOther(expand("%:r"),expand("%:e"),"<args>")
 
 function! LoadLogfile( logfile )
   "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
-  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f)
+  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
   exe "cfile ".a:logfile
   copen
   set errorformat&
@@ -536,6 +536,9 @@ nnoremap <C-\>] :tag <C-R>=expand("<cword>")<CR><CR>
 nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
 "nnoremap <silent> <C-[> :YcmCompleter GoToDefinition<CR>
 nnoremap <silent> <C-[> :cs find g <C-R>=expand("<cword>")<CR><CR>
+
+nnoremap x <C-e>
+nnoremap c <C-y>
 
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
