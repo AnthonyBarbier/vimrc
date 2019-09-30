@@ -56,6 +56,9 @@ Choose Window:
 = S: swap but keep focus
 = -: go to previous
 
+:ls List buffers
+:b <n> Switch current window to buffer <n>
+
 Switch to last window:
 <C-W><C-P>
 
