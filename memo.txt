@@ -57,6 +57,7 @@ Choose Window:
 = -: go to previous
 
 :ls List buffers
+:ls a List active buffers (Displayed)
 :b <n> Switch current window to buffer <n>
 
 Switch to last window:

@@ -227,6 +227,11 @@ nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
 inoremap <C-F> <C-R>=expand("%").":".line(".")<CR>
 "nnoremap <Esc>f :let @@=expand("%").":".line(".")<CR>
+function! EditFileLine(file_line)
+  let l:parts = split(a:file_line,":")
+  echo l:parts
+  exe "edit +".l:parts[1]." ".l:parts[0]
+endfunction
 
 function! LoadOther (file_no_ext, ext, ...)
   if a:0 > 0 && a:1 != ""
@@ -414,6 +419,7 @@ command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
 command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
 command! -nargs=1 -complete=file LoadLogfile call LoadLogfile(<f-args>)
 command! -nargs=1 Open call Open(<args>)
+command! -nargs=1 E call EditFileLine(<f-args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
 
@@ -521,8 +527,9 @@ let g:ycm_always_populate_location_list=1
 let g:ycm_enable_diagnostic_highlighting=0
 " Trying to speed up vim scrolling:
 let g:ycm_echo_current_diagnostic = 1 "Causes slow down
-let g:ycm_auto_trigger = 0 "Use C-Space for auto complete
+let g:ycm_auto_trigger = 1 "Use C-Space for auto complete when set to 0
 let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_min_num_of_chars_for_completion = 5
 
 map \w <Plug>CamelCaseMotion_w
 map \e <Plug>CamelCaseMotion_e

@@ -70,3 +70,6 @@
 [submodule "bundle/sleuth"]
 	path = bundle/sleuth
 	url = https://tpope.io/vim/sleuth.git
+[submodule "bundle/linediff"]
+	path = bundle/linediff
+	url = git://github.com/AndrewRadev/linediff.vim.git
