@@ -252,7 +252,26 @@ function! LoadOther (file_no_ext, ext, ...)
   end
 endfunction
 
+function! LoadOtherTF (file)
+  let l:full_path = resolve(a:file)
+  let l:cwd = resolve(getcwd())
+  let l:other ="foo"
+  if matchstr(l:cwd, "/_tensorflow")
+    let l:other = substitute(l:cwd, "/_tensorflowview", "/tensorflowview", "")
+  else
+    let l:other = substitute(l:cwd, "/tensorflowview", "/_tensorflowview", "")
+  end
+  echo l:other
+  echo l:full_path
+  if l:full_path =~ l:other
+    exe "edit ". substitute(l:full_path, l:other."/", "", "")
+  else
+    exe "edit ". substitute(l:full_path, l:cwd, l:other, "")
+  end
+endfunction
+
 command! -nargs=? Other call LoadOther(expand("%:r"),expand("%:e"),"<args>")
+command! -nargs=? OtherTF call LoadOtherTF(expand("%:p"))
 
 function! LoadLogfile( logfile )
   "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
