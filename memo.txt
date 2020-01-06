@@ -75,6 +75,12 @@ CamelCaseMotion: \w \e \b (Next beginning / end of work, backward)
 Save: :mksession /path/to/saved/session
 Restore: :source /path/to/saved/session
 
+Thunderbird:
+Shift+G : Go to Folder
+Next Unread N
+Previous Unread P
+Next / Previous message F/B
+
 TODO:
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth
