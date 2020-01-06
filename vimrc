@@ -256,13 +256,11 @@ function! LoadOtherTF (file)
   let l:full_path = resolve(a:file)
   let l:cwd = resolve(getcwd())
   let l:other ="foo"
-  if matchstr(l:cwd, "/_tensorflow")
+  if l:cwd =~ "/_tensorflow"
     let l:other = substitute(l:cwd, "/_tensorflowview", "/tensorflowview", "")
   else
     let l:other = substitute(l:cwd, "/tensorflowview", "/_tensorflowview", "")
   end
-  echo l:other
-  echo l:full_path
   if l:full_path =~ l:other
     exe "edit ". substitute(l:full_path, l:other."/", "", "")
   else
@@ -273,9 +271,17 @@ endfunction
 command! -nargs=? Other call LoadOther(expand("%:r"),expand("%:e"),"<args>")
 command! -nargs=? OtherTF call LoadOtherTF(expand("%:p"))
 
-function! LoadLogfile( logfile )
+function! LoadLogfile( logfile, warning, errors )
   "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:%m
-  set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
+  set errorformat=""
+  if a:warning == 1
+    set errorformat +=%tARNINGCPP:\ %f:%l:%c:\ warning:%m,%tARNINGCPP:%m\ %f:%l:%c:,%tARNINGCPP:\ %f:%l:%c\ %m
+  end 
+  if a:errors ==1
+    set errorformat+=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
+  end
+
+  "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
   exe "cfile ".a:logfile
   copen
   set errorformat&
@@ -285,7 +291,7 @@ endfunction
 function! MakeBazel()
   "exe "silent !clear; stdbuf -o0 ./build.sh 2>&1 | tee tmp_output.log && (exit ${PIPESTATUS[0]})"
   make
-  call LoadLogfile("output.log")
+  call LoadLogfile("output.log", 1, 1)
 endfunction
 
 function! MyMake()
@@ -436,7 +442,9 @@ command! -nargs=* -complete=file FindCodel call FindCodeFunc("", "l",<f-args>)
 command! -nargs=* -complete=file FindAnyl call FindAnyFunc("", "l", <f-args>)
 command! -nargs=* -complete=file FindHex call FindHexFunc(<f-args>)
 command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
-command! -nargs=1 -complete=file LoadLogfile call LoadLogfile(<f-args>)
+command! -nargs=1 -complete=file LoadLogfile call LoadLogfile(<f-args>, 1, 1)
+command! -nargs=1 -complete=file LoadWarnings call LoadLogfile(<f-args>, 1, 0)
+command! -nargs=1 -complete=file LoadErrors call LoadLogfile(<f-args>, 0, 1)
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 E call EditFileLine(<f-args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
@@ -502,6 +510,8 @@ command! -nargs=* -complete=custom,GtagsCandidate Zfile :cs find f <args>
 command! -nargs=* -complete=custom,GtagsCandidate Zinclude :cs find i <args>
 command! -nargs=0 Conflicts /^[<=>]\{7\}
 command! -nargs=0 MoveToLocation call MoveToLocation_func()
+command! -nargs=0 RemovePrefix :%s/^20[^]]*]//
+
 "command! -nargs=0 IgnoreWarningsOn :set errorformat=%EERROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m
 ":set errorformat=%EERROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%CIn\ file\ included\ from\ %f:%l:%c%m,%-GINFO:\ %m,%-GWARNING:\ %m,%-G%f:%l:%c:\ %tarning:%m,%C%*[\ ]from\ %f:%l%m
 "command! -nargs=0 IgnoreWarningsOff :set errorformat&
@@ -549,6 +559,8 @@ let g:ycm_echo_current_diagnostic = 1 "Causes slow down
 let g:ycm_auto_trigger = 1 "Use C-Space for auto complete when set to 0
 let g:ycm_key_invoke_completion = '<C-Space>'
 let g:ycm_min_num_of_chars_for_completion = 5
+
+let g:gundo_prefer_python3 = 1
 
 map \w <Plug>CamelCaseMotion_w
 map \e <Plug>CamelCaseMotion_e

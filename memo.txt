@@ -63,6 +63,13 @@ Choose Window:
 Switch to last window:
 <C-W><C-P>
 
+Marks:
+\+1-6 : Switch to next mark of the given group
+\* Next of same group
+\# Previous of same group
+\/ Next of any group
+\? Previous of any group
+
 CamelCaseMotion: \w \e \b (Next beginning / end of work, backward)
 
 Save: :mksession /path/to/saved/session
