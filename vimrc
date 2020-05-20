@@ -220,7 +220,6 @@ nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
 nnoremap <F9> :wa<CR>:Make!<CR>
 "nnoremap <F10> :wa<CR>:call MyMake()<CR>
 nnoremap <F10> :wa<CR>:call MakeBazel()<CR>
-nnoremap ; :
 nnoremap <C-f> :FZF<CR>
 nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
@@ -279,12 +278,15 @@ function! LoadLogfile( logfile, warning, errors )
   end 
   if a:errors ==1
     set errorformat+=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
+  elseif a:errors ==2
+    set errorformat+=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
   end
 
   "set errorformat=%tRROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%tRROR:%m\ %f:%l:%c%[\\,:],%tRROR:%m\ %f:%l%[\\,:],%tRROR:%m\ (see\ %f),%tRROR:\ \ \ File\ \"%f\"\\,\ line\ %l\\,\ %m
   exe "cfile ".a:logfile
   copen
   set errorformat&
+  exe "wincmd p"
   redraw!
 endfunction
 
@@ -445,6 +447,7 @@ command! -nargs=* -complete=file CscopeCreate call CscopeCreate_func(<f-args>)
 command! -nargs=1 -complete=file LoadLogfile call LoadLogfile(<f-args>, 1, 1)
 command! -nargs=1 -complete=file LoadWarnings call LoadLogfile(<f-args>, 1, 0)
 command! -nargs=1 -complete=file LoadErrors call LoadLogfile(<f-args>, 0, 1)
+command! -nargs=1 -complete=file LoadErrorsShort call LoadLogfile(<f-args>, 0, 2)
 command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 E call EditFileLine(<f-args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
@@ -577,6 +580,7 @@ nnoremap <silent> <C-[> :cs find g <C-R>=expand("<cword>")<CR><CR>
 
 nnoremap x <C-e>
 nnoremap c <C-y>
+imap jj <Esc>
 
 "Load pathogen as a module (Pathogen will then load all the other modules
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim

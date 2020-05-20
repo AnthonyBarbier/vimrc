@@ -73,3 +73,6 @@
 [submodule "bundle/linediff"]
 	path = bundle/linediff
 	url = git://github.com/AndrewRadev/linediff.vim.git
+[submodule "bundle/MPage"]
+	path = bundle/MPage
+	url = git@github.com:vim-scripts/MPage.git
