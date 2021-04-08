@@ -167,6 +167,7 @@ end
 "set go -=T
 "set go -=r
 
+au BufNewFile,BufRead Jenkinsfile set filetype=groovy
 au BufNewFile,BufRead SCons* set filetype=scons
 au BufNewFile,BufRead scons* set filetype=scons
 au BufNewFile,BufRead *.scons set filetype=scons
@@ -186,16 +187,17 @@ filetype plugin on
 " Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
 nnoremap <silent> <F12> :BufExplorer<CR>
 " Previous / next line in quickwindow
-nnoremap <silent> <F2> :cp<CR>
-nnoremap <silent> <F3> :cn<CR>
-nnoremap <S-F2> :lprevious<CR>
-nnoremap <S-F3> :lnext<CR>
-" Jump to line selected in quickwindow
+nnoremap <silent> <F2> :cp<CR>zz
+nnoremap <silent> <F3> :cn<CR>zz
 nnoremap <silent> <F4> :exe "cc".line('.')<CR>
-nnoremap <S-F4> :exe "ll".line('.')<CR>
+nnoremap <F5> :lprevious<CR>
+nnoremap <F6> :lnext<CR>
+nnoremap <F7> :lopen<CR>
+" Jump to line selected in quickwindow
+"nnoremap <S-F4> :exe "ll".line('.')<CR>
 " Jump to quickwindow line when double clicking on a line in the quickwindow
 "nnoremap <2-LeftMouse> :exe "cc".line('.')<CR>
-nnoremap <silent><F7> :GundoToggle<CR>
+"nnoremap <silent><F7> :GundoToggle<CR>
 nnoremap <F8> :GitGutterNextHunk<CR>
 nnoremap <silent> <F5> :cp<CR><C-o>
 nnoremap <silent> <F6> :cn<CR><C-o>
@@ -236,10 +238,29 @@ function! LoadOther (file_no_ext, ext, ...)
   if a:0 > 0 && a:1 != ""
     exe "edit ".a:file_no_ext.".".a:1
   else
-    if a:ext == 'cc'
-      exe "edit ".a:file_no_ext.".h"
-    elseif a:ext == 'h'
-      exe "edit ".a:file_no_ext.".cc"
+    let l:cwd = resolve(getcwd())
+    if l:cwd =~ "tensorflow"
+      if a:ext == 'cc'
+        exe "edit ".a:file_no_ext.".h"
+      else
+        exe "edit ".a:file_no_ext.".cc"
+      end
+    elseif l:cwd =~ "poptorch"
+      if a:ext == 'cpp'
+        let l:path = substitute(a:file_no_ext, "/source/","/include/poptorch/", "")
+        exe "edit ".l:path.".hpp"
+      else
+        let l:path = substitute(a:file_no_ext, "/include/poptorch/", "/source/", "")
+        exe "edit ".l:path.".cpp"
+      end
+    elseif a:file_no_ext =~ "willow"
+      if a:ext == 'cpp'
+        let l:path = substitute(a:file_no_ext, "/src/","/include/popart/", "")
+        exe "edit ".l:path.".hpp"
+      else
+        let l:path = substitute(a:file_no_ext, "/include/popart/", "/src/", "")
+        exe "edit ".l:path.".cpp"
+      end
     elseif a:ext == 'hpp'
       " s/include/lib/
       let l:path = substitute(a:file_no_ext, "/include/","/lib/","")
@@ -291,10 +312,12 @@ function! LoadLogfile( logfile, warning, errors )
 endfunction
 
 function! MakeBazel()
-  "exe "silent !clear; stdbuf -o0 ./build.sh 2>&1 | tee tmp_output.log && (exit ${PIPESTATUS[0]})"
+  set errorformat +=%t\ \ \ \ \ File\ \"%f\"\\,\ line\ %l
   make
-  call LoadLogfile("output.log", 1, 1)
+  set errorformat&
+  "call LoadLogfile("output.log", 1, 1)
 endfunction
+
 
 function! MyMake()
   let tmp=tempname()
@@ -330,7 +353,7 @@ function! FindAnyFunc( flags, prefix, expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=\.git > ".tmp
+    exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=\.linters --exclude-dir=\.cache --exclude-dir=\.git > ".tmp
     exe a:prefix."file ".tmp
     exe a:prefix."open"
 endfunction
@@ -349,7 +372,19 @@ function! FindCodeFunc( flags, prefix, expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R -n ". a:flags." --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --exclude-dir=benchmarks --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
+    exe "!grep -R -n ". a:flags." --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --include=*.rst --include=*.inc --exclude-dir=\.cache --exclude-dir=\.linters --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
+    exe a:prefix."file ".tmp
+    exe a:prefix."open"
+endfunction
+
+function! FindTxtFunc( flags, prefix, expr, ... )
+    if a:0 > 0
+        let path = a:1
+    else
+        let path= "."
+    end
+    let tmp=tempname()
+    exe "!grep -R -n ". a:flags." --include=*.txt --exclude-dir=\.cache --exclude-dir=\.linters --exclude-dir=\.git \"". a:expr."\" ". path." > ".tmp
     exe a:prefix."file ".tmp
     exe a:prefix."open"
 endfunction
@@ -371,7 +406,7 @@ function! FindHexFunc( expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=build --exclude-dir=out --exclude-dir=buildtools --exclude-dir=\.git > ".tmp
+    exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=\.cache --exclude-dir=build --exclude-dir=\.git > ".tmp
     exe "cfile ".tmp
     exe "copen"
 endfunction
@@ -436,6 +471,7 @@ command! -nargs=* -complete=file OpenFiles call OpenFilesFunc('-maxdepth 1',<f-a
 command! -nargs=* -complete=file OpenAll call OpenFilesFunc('',<f-args>)
 command! -nargs=* -complete=file FindInBuffers call FindInBuffersFunc(<f-args>)
 command! -nargs=* -complete=file FindCode call FindCodeFunc("", "c",<f-args>)
+command! -nargs=* -complete=file FindTxt call FindTxtFunc("", "c",<f-args>)
 command! -nargs=* -complete=file FindCodeIgnoreCase call FindCodeFunc("-i", "c",<f-args>)
 command! -nargs=* -complete=file FindCodeLong call FindCodeLongFunc("c",<f-args>)
 command! -nargs=* -complete=file FindAny call FindAnyFunc("","c", <f-args>)
@@ -452,6 +488,7 @@ command! -nargs=1 Open call Open(<args>)
 command! -nargs=1 E call EditFileLine(<f-args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
+command! -nargs=0 Cp :e ~/tmp/cp.txt
 
 command! -nargs=0 Hexon :%!xxd
 command! -nargs=0 Hexoff :%!xxd -r

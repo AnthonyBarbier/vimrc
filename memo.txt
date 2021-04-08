@@ -33,6 +33,11 @@ easymotion:
 <tab>w/W find word forward
 <tab>b/B find word backward
 
+[{ [( Previous { / (
+]} ]) Next } / )
+]m ]M Function { / }
+% Matching parenthesis / brace
+
 \b : Bookmark with name under cursor
 
 Explore: https://shapeshed.com/vim-netrw/

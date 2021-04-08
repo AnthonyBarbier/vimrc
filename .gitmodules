@@ -76,3 +76,6 @@
 [submodule "bundle/MPage"]
 	path = bundle/MPage
 	url = git@github.com:vim-scripts/MPage.git
+[submodule "bundle/vim-capnp"]
+	path = bundle/vim-capnp
+	url = https://github.com/cstrahan/vim-capnp.git
