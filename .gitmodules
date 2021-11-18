@@ -72,10 +72,10 @@
 	url = https://tpope.io/vim/sleuth.git
 [submodule "bundle/linediff"]
 	path = bundle/linediff
-	url = git://github.com/AndrewRadev/linediff.vim.git
+	url = https://github.com/AndrewRadev/linediff.vim.git
 [submodule "bundle/MPage"]
 	path = bundle/MPage
-	url = git@github.com:vim-scripts/MPage.git
+	url = https://github.com:vim-scripts/MPage.git
 [submodule "bundle/vim-capnp"]
 	path = bundle/vim-capnp
 	url = https://github.com/cstrahan/vim-capnp.git
