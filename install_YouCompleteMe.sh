@@ -26,6 +26,6 @@ git submodule update --init --recursive
 
 cd `dirname $0`/bundle/YouCompleteMe/
 
-python3 install.py --clang-completer --clangd-completer
+EXTRA_CMAKE_ARGS='-DCMAKE_CXX_COMPILER=g++-8' python3 install.py --clang-completer --clangd-completer 
 # Old version
 # ./install.sh --clang-completer
