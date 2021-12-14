@@ -16,7 +16,7 @@ startup_message off
 # Misc h4x to make scrollback work
 terminfo * te@:ti@
 termcapinfo xterm|xterms|xs|rxvt ti=\E7\E[?47l
-defscrollback 8192	# No of lines to keep in memory
+defscrollback 1000000# No of lines to keep in memory
 
 # Status line of ultimate win!
 hardstatus off # Screen should send it's messages else where

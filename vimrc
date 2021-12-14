@@ -318,6 +318,10 @@ function! MakeBazel()
   "call LoadLogfile("output.log", 1, 1)
 endfunction
 
+function! TempCreate()
+  let tmp=tempname()
+  exe "! mkdir -p $(dirname ".tmp.")"
+endfunction
 
 function! MyMake()
   let tmp=tempname()
@@ -489,6 +493,7 @@ command! -nargs=1 E call EditFileLine(<f-args>)
 command! -nargs=1 Diff :vertical diffpatch <f-args>
 command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
 command! -nargs=0 Cp :e ~/tmp/cp.txt
+command! -nargs=0 TempCreate call TempCreate()
 
 command! -nargs=0 Hexon :%!xxd
 command! -nargs=0 Hexoff :%!xxd -r
