@@ -172,6 +172,7 @@ au BufNewFile,BufRead SCons* set filetype=scons
 au BufNewFile,BufRead scons* set filetype=scons
 au BufNewFile,BufRead *.scons set filetype=scons
 au BufNewFile,BufRead *.md set filetype=markdown
+au BufNewFile,BufRead *.td set filetype=tablegen
 
 augroup vimrc
     au BufReadPre * setlocal foldmethod=indent
