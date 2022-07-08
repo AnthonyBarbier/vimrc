@@ -173,6 +173,7 @@ au BufNewFile,BufRead scons* set filetype=scons
 au BufNewFile,BufRead *.scons set filetype=scons
 au BufNewFile,BufRead *.md set filetype=markdown
 au BufNewFile,BufRead *.td set filetype=tablegen
+au BufNewFile,BufRead *.inc set filetype=cpp
 
 augroup vimrc
     au BufReadPre * setlocal foldmethod=indent
@@ -377,7 +378,7 @@ function! FindCodeFunc( flags, prefix, expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R -n ". a:flags." --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --include=*.rst --include=*.inc --exclude-dir=\.cache --exclude-dir=\.linters --exclude-dir=\.git \"". a:expr."\" ". path." | sort > ".tmp
+    exe "!grep -R -n ". a:flags." --include=*.yml --include=*.td --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --include=*.rst --include=*.inc --exclude-dir=\.cache --exclude-dir=\.linters --exclude-dir=\.git \"". a:expr."\" ". path." | sort > ".tmp
     exe a:prefix."file ".tmp
     exe a:prefix."open"
 endfunction

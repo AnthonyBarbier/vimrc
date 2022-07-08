@@ -1,3 +1,5 @@
+term screen-256color
+
 vbell off
 #bell_msg "Bell in window %n\007"
 
@@ -16,11 +18,12 @@ startup_message off
 # Misc h4x to make scrollback work
 terminfo * te@:ti@
 termcapinfo xterm|xterms|xs|rxvt ti=\E7\E[?47l
-defscrollback 1000000# No of lines to keep in memory
->>>>>>> Sort grep
+defscrollback 10000
+# No of lines to keep in memory
 
 # Status line of ultimate win!
-hardstatus off # Screen should send its messages else where
+# Screen should send its messages else where
+hardstatus off
 hardstatus alwayslastline
 # See the "STRING ESCAPES" section of the screen manpage
 # I can't remember which Debian person got me started.
@@ -54,3 +57,16 @@ termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 #defbce "on" 
 #bind b eval "writebuf" "exec sh -c 'pbcopy | xclip'"
 #bind b eval "writebuf" 'exec !!! xclip -selection "clipboard" -i /tmp/screen-exchange'
+
+bind -c select10 0 select 10
+bind -c select10 1 select 11
+bind -c select10 2 select 12
+bind -c select10 3 select 13
+bind -c select10 4 select 14
+bind -c select10 5 select 15
+bind -c select10 6 select 16
+bind -c select10 7 select 17
+bind -c select10 8 select 18
+bind -c select10 9 select 19
+
+bindkey "^B" command -c select10
