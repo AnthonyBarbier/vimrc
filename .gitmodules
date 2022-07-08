@@ -19,15 +19,9 @@
 [submodule "bundle/fugitive"]
 	path = bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "bundle/vim-markdown"]
-	path = bundle/vim-markdown
-	url = https://github.com/plasticboy/vim-markdown.git
 [submodule "bundle/tabular"]
 	path = bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule "bundle/vim-markdown-preview"]
-	path = bundle/vim-markdown-preview
-	url = https://github.com/AnthonyARM/vim-markdown-preview.git
 [submodule "bundle/gundo"]
 	path = bundle/gundo
 	url = http://github.com/sjl/gundo.vim.git
@@ -58,9 +52,6 @@
 [submodule "vim-src"]
 	path = vim-src
 	url = https://github.com/vim/vim.git
-[submodule "bundle/bazel-compilation"]
-	path = bundle/bazel-compilation
-	url = https://github.com/grailbio/bazel-compilation-database.git
 [submodule "bundle/fzf"]
 	path = bundle/fzf
 	url = https://github.com/junegunn/fzf.git
