@@ -15,6 +15,7 @@ let &undodir=s:cache
 set undofile
 set undolevels=1000
 set undoreload=10000
+set termwinscroll=100000
 set ttyfast
 
 "auto completion for files
@@ -81,6 +82,8 @@ map <ESC>[H <Home>
 imap <ESC>[H <Home>
 map <ESC>[F <End>
 imap <ESC>[F <End>
+map <ESC>[7~ <Home>
+map <ESC>[4~ <End>
 
 ":verbose map /
 "nunmap /
@@ -185,6 +188,8 @@ set hidden
 set cindent
 set formatoptions+=r
 filetype plugin on
+
+tnoremap <Esc><Esc> <C-\><c-n>
 "set comments=s1:/*, mb:\ *, elx:\ */
 " Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
 nnoremap <silent> <F12> :BufExplorer<CR>
