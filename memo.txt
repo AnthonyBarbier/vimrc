@@ -1,3 +1,7 @@
+Bash: https://github.com/jlevy/the-art-of-command-line
+ctrl-x ctrl-e: edit current line in EDITOR
+alt+# :comment current line and press enter
+
 :tag <C-R><C-w> To jump to tag in help (Or <C-\>] with current vimrc)
 :dis -> print all the paste registers
 

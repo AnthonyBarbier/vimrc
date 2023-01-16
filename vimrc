@@ -7,6 +7,15 @@ set t_Co=256
 set makeprg=./build.sh
 "set makeprg=make
 
+"FIXME: needs a more recent version of vim!
+func ActivateEnv(cmd)
+  echomsg "GDB ".a:cmd
+  return ". activate_buildenv.sh; enable.sh ;".a:cmd
+endfunc
+let g:termdebug_config = {}
+let g:termdebug_config["command_filter"] = function("ActivateEnv")
+packadd termdebug
+
 let s:home = expand('~')
 let s:cache= s:home . "/tmp/vim_cache" . getcwd()
 exe "silent ! mkdir -p ". s:cache

@@ -58,15 +58,28 @@ termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 #bind b eval "writebuf" "exec sh -c 'pbcopy | xclip'"
 #bind b eval "writebuf" 'exec !!! xclip -selection "clipboard" -i /tmp/screen-exchange'
 
-bind -c select10 0 select 10
-bind -c select10 1 select 11
-bind -c select10 2 select 12
-bind -c select10 3 select 13
-bind -c select10 4 select 14
-bind -c select10 5 select 15
-bind -c select10 6 select 16
-bind -c select10 7 select 17
-bind -c select10 8 select 18
-bind -c select10 9 select 19
+bind -c select10 0 eval "select 10" "fit"
+bind -c select10 1 eval "select 11" "fit"
+bind -c select10 2 eval "select 12" "fit"
+bind -c select10 3 eval "select 13" "fit"
+bind -c select10 4 eval "select 14" "fit"
+bind -c select10 5 eval "select 15" "fit"
+bind -c select10 6 eval "select 16" "fit"
+bind -c select10 7 eval "select 17" "fit"
+bind -c select10 8 eval "select 18" "fit"
+bind -c select10 9 eval "select 19" "fit"
+bind 0 eval "select 0" "fit"
+bind 1 eval "select 1" "fit"
+bind 2 eval "select 2" "fit"
+bind 3 eval "select 3" "fit"
+bind 4 eval "select 4" "fit"
+bind 5 eval "select 5" "fit"
+bind 6 eval "select 6" "fit"
+bind 7 eval "select 7" "fit"
+bind 8 eval "select 8" "fit"
+bind 9 eval "select 9" "fit"
+bind ^a eval "other" "fit"
+bind n eval "next" "fit"
+bind p eval "prev" "fit"
 
 bindkey "^B" command -c select10
