@@ -3,14 +3,14 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd vim-src
 # g++-8 needed for YCM
-sudo apt-get install build-essential cmake python-dev libperl-dev libncurses-dev python python3 python3-dev ruby ruby-dev libx11-dev libxt-dev libgtk2.0-dev  libncurses5  ncurses-dev g++-8 -y
+#sudo apt-get install build-essential cmake python-dev libperl-dev libncurses-dev python python3 python3-dev ruby ruby-dev libx11-dev libxt-dev libgtk2.0-dev  libncurses5  ncurses-dev g++-8 -y
+# Ubuntu 22:
+#sudo apt-get install build-essential cmake python2-dev python2 python-dev-is-python3 libperl-dev libncurses-dev -y
 ./configure \
    --enable-multibyte \
    --enable-perlinterp=yes \
-   --enable-pythoninterp=yes \
-   --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
    --enable-python3interp=yes \
-   --with-python3-config-dir=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu \
+   --with-python3-command=python3 \
    --enable-cscope \
    --enable-gui=auto \
    --with-features=huge \
@@ -20,28 +20,7 @@ sudo apt-get install build-essential cmake python-dev libperl-dev libncurses-dev
    --with-compiledby="Anthony" \
    --prefix=${DIR}/install \
    --enable-fail-if-missing
-make -j24
+make -j80
 make install
 exit 0
 
-sudo apt-get install build-essential cmake python-dev
-./configure \
-   --enable-multibyte \
-   --enable-perlinterp=yes \
-   --enable-pythoninterp=yes \
-   --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
-   --enable-python3interp=yes \
-   --with-python3-config-dir=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu \
-   --enable-luainterp \
-   --with-luajit \
-   --enable-cscope \
-   --enable-gui=auto \
-   --with-features=huge \
-   --with-x \
-   --enable-fontset \
-   --enable-largefile \
-   --with-compiledby="Anthony" \
-   --enable-fail-if-missing
-
-make VIMRUNTIMEDIR=/usr/local/share/vim/vim81 -j24
-sudo make install

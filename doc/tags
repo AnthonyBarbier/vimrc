@@ -24,7 +24,6 @@ Cdetach	pyclewn.txt	/*Cdetach*
 Cfoldvar	pyclewn.txt	/*Cfoldvar*
 Cinferiortty	pyclewn.txt	/*Cinferiortty*
 Cinterrupt	pyclewn.txt	/*Cinterrupt*
-Cmapkeys	pyclewn.txt	/*Cmapkeys*
 Cquit	pyclewn.txt	/*Cquit*
 Csetfmtvar	pyclewn.txt	/*Csetfmtvar*
 Csymcompletion	pyclewn.txt	/*Csymcompletion*
@@ -65,7 +64,6 @@ mark-usage	mark.txt	/*mark-usage*
 mark-whitespace-indifferent	mark.txt	/*mark-whitespace-indifferent*
 mark.txt	mark.txt	/*mark.txt*
 mark.vim	mark.txt	/*mark.vim*
-pdb-keys	pyclewn.txt	/*pdb-keys*
 pdb-pdbrc	pyclewn.txt	/*pdb-pdbrc*
 project-command	pyclewn.txt	/*project-command*
 project-file	pyclewn.txt	/*project-file*
