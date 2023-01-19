@@ -6,6 +6,7 @@ cd vim-src
 #sudo apt-get install build-essential cmake python-dev libperl-dev libncurses-dev python python3 python3-dev ruby ruby-dev libx11-dev libxt-dev libgtk2.0-dev  libncurses5  ncurses-dev g++-8 -y
 # Ubuntu 22:
 #sudo apt-get install build-essential cmake python2-dev python2 python-dev-is-python3 libperl-dev libncurses-dev -y
+sudo apt-get install build-essential cmake libperl-dev libncurses-dev -y
 ./configure \
    --enable-multibyte \
    --enable-perlinterp=yes \
