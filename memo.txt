@@ -5,6 +5,7 @@ alt+# :comment current line and press enter
 :tag <C-R><C-w> To jump to tag in help (Or <C-\>] with current vimrc)
 :dis -> print all the paste registers
 
+i3 Save / load windows layout: Mod + ,  vs Mod + .
 Paste in terminal mode: <C-w>"{reg}
 <C-W>N (Capital N) -> Switch to Normal mode in terminal
 
