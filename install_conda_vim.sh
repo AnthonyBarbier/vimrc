@@ -13,7 +13,7 @@ do
   bin=install/bin/`basename $v`
   echo ". `pwd`/conda/etc/profile.d/conda.sh" > $bin
   echo "conda activate $buildenv" >> $bin
-  echo "$v $@" >> $bin
+  echo $v '$@' >> $bin
   chmod +x $bin
 done
 
