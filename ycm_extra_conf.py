@@ -102,7 +102,16 @@ if platform.system() != 'Windows':
 #
 # Most projects will NOT need to set this to anything; you can just change the
 # 'flags' list of compilation flags. Notice that YCM itself uses that approach.
-compilation_database_folder = os.getcwd()
+
+def getFolder():
+    if os.path.exists(os.path.join(os.getcwd(), "compile_commands.json")):
+        return os.getcwd()
+    build = os.path.realpath(os.path.join(os.getcwd(),"..","build"))
+    if os.path.exists(os.path.join(build,"compile_commands.json")):
+        return build
+    return ""
+
+compilation_database_folder = getFolder()
 
 if os.path.exists( compilation_database_folder ):
   database = ycm_core.CompilationDatabase( compilation_database_folder )
