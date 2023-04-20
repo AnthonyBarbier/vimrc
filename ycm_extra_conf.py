@@ -104,11 +104,9 @@ if platform.system() != 'Windows':
 # 'flags' list of compilation flags. Notice that YCM itself uses that approach.
 
 def getFolder():
-    if os.path.exists(os.path.join(os.getcwd(), "compile_commands.json")):
-        return os.getcwd()
-    build = os.path.realpath(os.path.join(os.getcwd(),"..","build"))
-    if os.path.exists(os.path.join(build,"compile_commands.json")):
-        return build
+    for f in [os.getcwd(), os.path.join(os.getcwd(),"..",build)],
+        if os.path.exists(os.path.join(f, "compile_commands.json")):
+            return f
     return ""
 
 compilation_database_folder = getFolder()
