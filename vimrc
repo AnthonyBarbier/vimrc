@@ -198,7 +198,10 @@ set cindent
 set formatoptions+=r
 filetype plugin on
 
+"Terminal mode shortcuts
 tnoremap <Esc><Esc> <C-\><c-n>
+tnoremap <C-V> <C-W>"0
+
 "set comments=s1:/*, mb:\ *, elx:\ */
 " Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
 nnoremap <silent> <F12> :BufExplorer<CR>
@@ -511,6 +514,10 @@ command! -nargs=0 Wsudo :w !sudo tee > /dev/null %
 command! -nargs=0 Cp :e ~/tmp/cp.txt
 command! -nargs=0 TempCreate call TempCreate()
 
+cnoreabbrev FC FindCode
+cnoreabbrev FA FindAny
+cnoreabbrev FT FindText
+
 command! -nargs=0 Hexon :%!xxd
 command! -nargs=0 Hexoff :%!xxd -r
 
@@ -635,6 +642,8 @@ nnoremap <C-\>] :tag <C-R>=expand("<cword>")<CR><CR>
 nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
 "nnoremap <silent> <C-[> :YcmCompleter GoToDefinition<CR>
 nnoremap <silent> <C-[> :cs find g <C-R>=expand("<cword>")<CR><CR>
+
+cnoremap <C-d> <c-r>=expand('%:p:h')<CR>
 
 nnoremap x <C-e>
 nnoremap c <C-y>
