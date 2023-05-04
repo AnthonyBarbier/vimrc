@@ -532,7 +532,6 @@ let GtagsCscope_Auto_Map = 0
 let GtagsCscope_Quiet = 1
 set cscopetag
 set csverb
-let g:choosewin_label='ADFJKLGHQWERUIO'
 
 set statusline=%q[%f][%v,%l/%L][%p%%]
 "set statusline=[%f][%l,%v][%p%%][len=%L][%{fugitive#statusline()}]
@@ -636,7 +635,9 @@ map \q <Plug>CamelCaseMotion_b
 
 " use overlay feature:
 let g:choosewin_overlay_enable = 0
-nmap = <Plug>(choosewin)
+let g:choosewin_keymap = { ' ': 'previous'}
+let g:choosewin_label='FJDKLSAUITR'
+nmap <Space> <Plug>(choosewin)
 
 nnoremap <C-\>] :tag <C-R>=expand("<cword>")<CR><CR>
 nnoremap <silent> <C-]> :YcmCompleter GoToDeclaration<CR>
