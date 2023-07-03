@@ -4,6 +4,12 @@ function FindProxyForURL(url, host) {
   if (shExpMatch(host, "artifactory.*")) {
     return proxy;
   }
+  if (shExpMatch(host, "grafana.*")) {
+    return proxy;
+  }
+  if (shExpMatch(host, ".*cdash.*")) {
+    return proxy;
+  }
 
   return "DIRECT";
 }
