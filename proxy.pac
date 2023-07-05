@@ -4,7 +4,7 @@ function FindProxyForURL(url, host) {
   if (shExpMatch(host, "artifactory.*")) {
     return proxy;
   }
-  if (shExpMatch(host, ".*dashboard.sourcevertex.net.*")) {
+  if (shExpMatch(host, "*dashboard.sourcevertex.net*")) {
     return proxy;
   }
   if (shExpMatch(host, "grafana.*")) {
