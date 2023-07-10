@@ -636,7 +636,7 @@ map \q <Plug>CamelCaseMotion_b
 " use overlay feature:
 let g:choosewin_overlay_enable = 0
 let g:choosewin_keymap = { ' ': 'previous'}
-let g:choosewin_label='FJDKLSAUITR'
+let g:choosewin_label='FJDKLAUITR'
 nmap <Space> <Plug>(choosewin)
 
 nnoremap <C-\>] :tag <C-R>=expand("<cword>")<CR><CR>
