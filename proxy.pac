@@ -1,5 +1,5 @@
 function FindProxyForURL(url, host) {
-  proxy = "SOCKS5 127.0.0.1:12345";
+  proxy = "SOCKS5 127.0.0.1:12345, DIRECT";
   // our local URLs from the domains below example.com don't need a proxy:
   if (shExpMatch(host, "artifactory.*")) {
     return proxy;
