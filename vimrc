@@ -4,7 +4,7 @@ set nocompatible
 "Use 256 colors
 set t_Co=256
 "Program called when 'make' is called
-set makeprg=./build.sh
+set makeprg=build.py
 "set makeprg=make
 
 "FIXME: needs a more recent version of vim!
