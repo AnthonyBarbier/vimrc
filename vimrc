@@ -12,6 +12,11 @@ func ActivateEnv(cmd)
   echomsg "GDB ".a:cmd
   return ". activate_buildenv.sh; enable.sh ;".a:cmd
 endfunc
+let g:startify_session_persistence = 1
+let g:startify_lists = [
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+      \ ]
 let g:termdebug_config = {}
 let g:termdebug_config["command_filter"] = function("ActivateEnv")
 packadd termdebug

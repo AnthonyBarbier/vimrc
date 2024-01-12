@@ -73,3 +73,6 @@
 [submodule "bundle/vim-log-highlighting"]
 	path = bundle/vim-log-highlighting
 	url = git@github.com:MTDL9/vim-log-highlighting.git
+[submodule "bundle/vim-startify"]
+	path = bundle/vim-startify
+	url = git@github.com:mhinz/vim-startify.git
