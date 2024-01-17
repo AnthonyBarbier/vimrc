@@ -67,6 +67,7 @@ Choose Window:
 = s: swap windows
 = S: swap but keep focus
 = -: go to previous
+(Changed from = to space)
 
 :ls List buffers
 :ls a List active buffers (Displayed)
@@ -94,6 +95,7 @@ Previous Unread P
 Next / Previous message F/B
 
 TODO:
+https://github.com/puremourning/vimspector
 https://jonasdevlieghere.com/vim-lsp-clangd/
 Auto indent settings: https://github.com/tpope/vim-sleuth
 Advanced: https://github.com/junegunn/fzf.vim.git
