@@ -247,8 +247,18 @@ nnoremap <F9> :wa<CR>:Make!<CR>
 "nnoremap <F10> :wa<CR>:call MyMake()<CR>
 nnoremap <F10> :wa<CR>:call MakeBazel()<CR>
 " This includes things in build / buildenv...
+function MaybeGit()
+  let l:cwd = resolve(getcwd())
+  if isdirectory(l:cwd ."/.git")
+    GFiles
+  else
+    FZF
+  end
+endfunction
+
 nnoremap <Leader><C-f> :FZF<CR>
-nnoremap <C-f> :call fzf#run({'source': 'git ls-files', 'sink': 'e'})<CR>
+"nnoremap <C-f> :call fzf#run({'source': 'git ls-files', 'sink': 'e'})<CR>
+nnoremap <C-f> :call MaybeGit()<CR>
 nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
