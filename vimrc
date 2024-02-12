@@ -246,7 +246,9 @@ nnoremap <Leader>- :exe "resize " . (winheight(0) * 9/10)<CR>
 nnoremap <F9> :wa<CR>:Make!<CR>
 "nnoremap <F10> :wa<CR>:call MyMake()<CR>
 nnoremap <F10> :wa<CR>:call MakeBazel()<CR>
-nnoremap <C-f> :FZF<CR>
+" This includes things in build / buildenv...
+nnoremap <Leader><C-f> :FZF<CR>
+nnoremap <C-f> :call fzf#run({'source': 'git ls-files', 'sink': 'e'})<CR>
 nnoremap <Tab>q :Copen<CR>
 nnoremap <C-e> 10<C-e>
 nnoremap <C-y> 10<C-y>
@@ -484,6 +486,10 @@ function! DoxyTabF()range
     exe range . 'Tabularize /^[^\]]\+]'
     exe range . 'Tabularize /^[^\]]\+] \+[^ ]\+ \+/l0'
 endfunction
+function! DocstringTabF()range
+    let range = a:firstline . ',' . a:lastline
+    exe range . 'Tabularize /:/l0c1'
+endfunction
 function! GtagsAutoUpdate()
         let l:result = system("global -u --single-update=\"" . expand("%") . "\"")
 endfunction
@@ -528,6 +534,7 @@ command! -nargs=0 Hexoff :%!xxd -r
 
 command! -nargs=0 Gcheckout :Git checkout %
 command! -nargs=0 -range DoxyTab <line1>,<line2> call DoxyTabF()
+command! -nargs=0 -range AlignDocstring <line1>,<line2> call DocstringTabF()
 
 set nocst "no ctags db
 set cscopequickfix=s-,c-,d-,i-,t-,e-
