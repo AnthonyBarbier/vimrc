@@ -1,19 +1,18 @@
-curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
-bash Mambaforge-$(uname)-$(uname -m).sh -b -p `pwd`/conda
-. `pwd`/conda/etc/profile.d/conda.sh
+curl -o micromamba -L -O "https://github.com/mamba-org/micromamba-releases/releases/download/1.5.6-0/micromamba-linux-64"
+# or micromamba-aarch64
+chmod +x micromamba
 
 export PYTHONNOUSERSITE=1
 python_version=$(python3 -c "import platform;print(platform.python_version())")
 buildenv=`pwd`/buildenv
-conda create python=${python_version} vim gh --prefix $buildenv -y
-
+micromamba=`pwd`/micromamba
+$micromamba create -c conda-forge python=${python_version} vim gh --prefix $buildenv -y
 mkdir -p install/bin
 for v in $(ls $buildenv/bin/vim* $buildenv/bin/gh)
 do
   bin=install/bin/`basename $v`
-  echo ". `pwd`/conda/etc/profile.d/conda.sh" > $bin
-  echo "conda activate $buildenv" >> $bin
-  echo $v '"$@"' >> $bin
+  echo "" > $bin
+  echo "$micromamba run -p $buildenv $v \"\$@\"" >> $bin
   chmod +x $bin
 done
 
