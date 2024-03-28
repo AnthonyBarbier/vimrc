@@ -393,7 +393,7 @@ function! FindAnyFunc( flags, prefix, expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=\.linters --exclude-dir=\.cache --exclude-dir=\.git | sort > ".tmp
+    exe "!grep -R ".a:flags." -n \"". a:expr."\" ". path." --exclude-dir=build --exclude-dir=third_party --exclude-dir=\.git | sort > ".tmp
     exe a:prefix."file ".tmp
     exe a:prefix."open"
 endfunction
@@ -412,7 +412,7 @@ function! FindCodeFunc( flags, prefix, expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R -n ". a:flags." --include=*.yml --include=*.td --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --include=*.rst --include=*.inc --exclude-dir=\.cache --exclude-dir=\.linters --exclude-dir=\.git \"". a:expr."\" ". path." | sort > ".tmp
+    exe "!grep -R -n ". a:flags." --include=*.yml --include=*.td --include=*.py --include=*.c --include=*.cpp --include=*.cc --include=*.cl --include=*.h --include=*.hpp --include=*.rst --include=*.inc --exclude-dir=build --exclude-dir=third_party --exclude-dir=\.git \"". a:expr."\" ". path." | sort > ".tmp
     exe a:prefix."file ".tmp
     exe a:prefix."open"
 endfunction
@@ -424,7 +424,7 @@ function! FindTxtFunc( flags, prefix, expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R -n ". a:flags." --include=*.txt --exclude-dir=\.cache --exclude-dir=\.linters --exclude-dir=\.git \"". a:expr."\" ". path." | sort > ".tmp
+    exe "!grep -R -n ". a:flags." --include=*.txt --exclude-dir=build --exclude-dir=third_party --exclude-dir=\.git \"". a:expr."\" ". path." | sort > ".tmp
     exe a:prefix."file ".tmp
     exe a:prefix."open"
 endfunction
@@ -446,7 +446,7 @@ function! FindHexFunc( expr, ... )
         let path= "."
     end
     let tmp=tempname()
-    exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=\.cache --exclude-dir=build --exclude-dir=\.git > ".tmp
+    exe "!grep -R -n --include=*.hex ". a:expr." ". path." --exclude-dir=third_party --exclude-dir=build --exclude-dir=\.git > ".tmp
     exe "cfile ".tmp
     exe "copen"
 endfunction
