@@ -12,6 +12,14 @@ func ActivateEnv(cmd)
   echomsg "GDB ".a:cmd
   return ". activate_buildenv.sh; enable.sh ;".a:cmd
 endfunc
+
+function SaveCurrentSession()
+  if exists('v:this_session') && filewritable(v:this_session)
+    call startify#session_write(fnameescape(v:this_session))
+  endif
+endfunction
+
+:autocmd! BufWritePost * call SaveCurrentSession()
 let g:startify_session_persistence = 1
 let g:startify_lists = [
       \ { 'type': 'sessions',  'header': ['   Sessions']       },
@@ -605,7 +613,7 @@ command! -nargs=0 RemovePrefix :%s/^20[^]]*]//
 ":set errorformat=%EERROR:\ %f:%l:%c:%m,%f:%l:%c\ %trror:%m,%CIn\ file\ included\ from\ %f:%l:%c%m,%-GINFO:\ %m,%-GWARNING:\ %m,%-G%f:%l:%c:\ %tarning:%m,%C%*[\ ]from\ %f:%l%m
 "command! -nargs=0 IgnoreWarningsOff :set errorformat&
 
-:autocmd! BufWritePost * call GtagsAutoUpdate()
+":autocmd! BufWritePost * call GtagsAutoUpdate()
 
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 command! -nargs=0 OverLength :match OverLength /\%81v.\+/
